@@ -1,0 +1,138 @@
+.reviewSection {
+  background-color: #0d0d0d; /* 검정색 배경에 자연스러운 어두운 영역 */
+  color: #f5f5f5; /* 밝은 글씨 */
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 32px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.reviewSection h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 8px;
+}
+
+/* ✅ 리뷰 작성 영역 */
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.reviewForm input,
+.reviewForm textarea {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f5f5f5;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  outline: none;
+  resize: none;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.reviewForm input:focus,
+.reviewForm textarea:focus {
+  border-color: #3b82f6; /* 파란 포인트 */
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.reviewForm button {
+  align-self: flex-end;
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.reviewForm button:hover {
+  opacity: 0.85;
+}
+
+/* ✅ 리뷰 목록 */
+.reviewList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.reviewItem {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 16px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.reviewItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.reviewItem strong {
+  color: #60a5fa; /* 하이라이트: 닉네임 파란색 */
+}
+
+.reviewItem p {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+/* ✅ 버튼 영역 (수정 / 삭제) */
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.buttons button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e5e5e5;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.buttons button:hover {
+  background-color: rgba(59, 130, 246, 0.3);
+  border-color: #3b82f6;
+  color: #fff;
+}
+
+/* ✅ 로그인 안내 문구 */
+.loginNotice {
+  color: #d1d5db;
+  font-size: 0.95rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+}
+
+/* ✅ 날짜 표시 */
+.reviewItem small {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}

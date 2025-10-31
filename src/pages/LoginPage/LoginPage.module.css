@@ -1,0 +1,194 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100dvw;
+  height: 100dvh;
+  background: url(./login-bg.jpg)
+    no-repeat center center / cover;
+    position: relative;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: rgba(234, 234, 234, 0.9);
+}
+
+.card {
+  background-color: var(--light-bg-color);
+  padding: 80px;
+  border-radius: 8px;
+  width: 500px;
+  text-align: center;
+  z-index: 10;
+  border: 1px solid rgba(33, 33, 33, 0.3);
+  position: relative;
+}
+
+.bookmark {
+  position: absolute;
+  top: 0;
+  right: 80px;
+}
+
+.logoBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 45px;
+}
+
+.logoImg {
+  width: 180px;
+  margin-right: 8px;
+}
+
+.logoText {
+  font-size: 0px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.input {
+  padding: 12px;
+  border: 1px solid rgba(33, 33, 33, 0.3);
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  background-color: var(--light-bg-color);
+  color: var(--light-text-color);
+}
+
+.input:focus {
+  border: 2px solid var(--light-primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.1);
+  background-color: var(--light-bg-color);
+}
+
+.loginBtn {
+  background-color: var(--light-primary-color);
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 12px;
+}
+
+.loginBtn:active {
+  outline: none;
+  background-color: color-mix(in srgb, var(--light-primary-color) 80%, black);
+}
+
+.registerBox {
+  margin-top: 19px;
+  position: relative;
+}
+
+.registerBox > p {
+  font-size: 12px;
+  color: rgba(33, 33, 33, 0.3);
+  position: absolute;
+  top: -5px;
+}
+
+.registerBtn {
+  width: 100%;
+  background-color: var(--light-bg-color);
+  border: 1px solid rgba(33, 33, 33, 0.1);
+  color: rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 12px;
+}
+
+.registerBtn:hover {
+  border: 1px solid rgba(33, 33, 33, 0.1);
+  background-color: rgba(33, 33, 33, 0.2);
+  outline: none;
+}
+
+.registerBtn:focus {
+  outline: none;
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: rgba(33, 33, 33, 0.3);
+  font-size: 14px;
+  margin-top: 25px;
+}
+
+.or::before,
+.or::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(33, 33, 33, 0.3);
+}
+
+.or:not(:empty)::before {
+  margin-right: 0.75em;
+}
+
+.or:not(:empty)::after {
+  margin-left: 0.75em;
+}
+
+
+.snsBox {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.snsBtn {
+  all: unset;
+  cursor: pointer;
+}
+
+.snsBtn:hover,
+.snsBtn:focus,
+.snsBtn:active {
+  outline: none;
+  border: none;
+}
+
+.snsBtn:hover {
+  transform: scale(1.05);
+}
+
+.snsBtn > img {
+  width: 54px;
+}
+
+.message {
+  margin-top: 10px;
+  font-size: 13px;
+  color: red;
+}
+
+.footer {
+  background-color: var(--light-bg-color);
+  font-size: 16px;
+  color: rgba(33, 33, 33, 0.3);
+  width: 100dvw;
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid rgba(33, 33, 33, 0.3);
+  border-bottom: 1px solid rgba(33, 33, 33, 0.3);
+}

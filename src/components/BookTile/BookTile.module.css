@@ -1,0 +1,229 @@
+.tile {
+    width: 249px;
+    border: 1px solid #E9E9E9;
+    margin-bottom: 1;
+    height: 100%;
+}
+
+.tile:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.number {
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+    font-size: 30px;
+    text-align: center;
+    color: #212121;
+    margin: 15px 0;
+}
+
+.imageWrapper {
+    width: 200px;
+    height: 221px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.imageWrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--bg);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+.imageWrapper::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.image {
+    position: relative;
+    z-index: 2;
+    display: block;
+    width: 155px;
+    height: 221px;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.booklist {
+    margin-top: 18px;
+    margin-bottom: 19px;
+    padding: 0 15px;
+    box-sizing: border-box;
+}
+
+.title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+    height: 45px;
+
+    display: -webkit-box;
+    /* flex 대체 박스 */
+    -webkit-line-clamp: 2;
+    /* 두 줄까지만 보여줌 */
+    -webkit-box-orient: vertical;
+    /* 수직 방향으로 자르기 */
+    overflow: hidden;
+    /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis;
+    /* ... 표시 */
+    line-height: 1.4;
+    /* 줄간격 살짝 조정 */
+    max-height: calc(1.4em * 2);
+    /* 두 줄 높이에 맞춤 (선택사항) */
+    word-break: keep-all;
+    /* 단어 중간 끊김 방지 */
+}
+
+.author {
+    margin-bottom: 8px;
+    color: #A6A6A6;
+    font-size: 12px;
+    font-family: "Pretendard", sans-serif;
+
+    white-space: nowrap;
+    /* 한 줄만 표시 */
+    overflow: hidden;
+    /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis;
+    /* ... 처리 */
+    width: 200px;
+    /* 너비 지정 (필수!) */
+}
+
+.priceReview {
+    display: flex;
+    justify-content: space-between;
+}
+
+.price_review {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+}
+
+.review {
+    display: flex;
+    gap: 4px;
+}
+
+.starIcon {
+    width: 17px;
+    height: 17px;
+    fill: #FFAE00;
+}
+
+.count {
+    font-size: 12px;
+    font-family: "Pretendard", sans-serif;
+    color: #646464;
+}
+
+.sale {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-family: "Pretendard", sans-serif;
+}
+
+.discount {
+    font-size: 16px;
+    font-family: "Pretendard", sans-serif;
+    font-weight: 300;
+    color: #646464;
+    text-decoration: line-through;
+}
+
+.percent {
+    font-size: 12px;
+    font-family: "Pretendard", sans-serif;
+    color: #FF38D3;
+    margin-left: 5px;
+}
+
+.button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 7px;
+    padding-bottom: 20px;
+}
+
+.cart {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    width: 68px;
+    height: 44px;
+    background-color: #1B56EC;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+}
+
+.buy {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    width: 68px;
+    height: 44px;
+    background-color: #1DB592;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+}
+
+.heart {
+    cursor: pointer;
+    border: 1px solid #646464;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 68px;
+    height: 44px;
+}
+
+.heartIcon {
+    width: 20px;
+    height: 20px;
+    fill: #FF38D3;
+}
+
+.priceContainer {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.salePrice {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #111;
+}
+
+.listPrice {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.95rem;
+}

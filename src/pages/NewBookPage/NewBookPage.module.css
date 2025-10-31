@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.title {
+    display: flex;
+    font-size: 30px;
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+    color: #212121;
+    margin-top: 121px;
+    margin-bottom: 14px;
+    margin-left: 360px;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: #E9E9E9;
+    position: absolute;
+    top: 170px;
+    left: 0;
+}
+
+.bookList {
+    position: absolute;
+    top: 227px;
+    left: 0;
+    width: 100%;
+}
+
+/* 카드형 그리드: BookRow 레이아웃의 왼쪽 여백과 정렬을 맞추기 위해 padding-left 사용 */
+.tileGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 249px); /* 한 행에 4개 고정 */
+    padding-left: 561px; /* BookRow와 동일한 왼쪽 오프셋 */
+    justify-content: start;
+    align-items: start;
+}
+

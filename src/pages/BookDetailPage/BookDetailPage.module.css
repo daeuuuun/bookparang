@@ -1,0 +1,221 @@
+.detailContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  flex-wrap: wrap; /* ✅ 화면 줄어들 때 자연스럽게 아래로 */
+}
+
+/* ✅ 도서 이미지 */
+.cover {
+  width: 250px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ 도서 정보 섹션 */
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* ✅ 제목 */
+.info h2 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+/* ✅ 저자 */
+.author {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* ✅ 평점 */
+.rating {
+  font-size: 1rem;
+  color: #f5b301;
+  margin-top: 4px;
+}
+
+.rating .sub {
+  font-size: 0.9rem;
+  color: #888;
+  margin-left: 4px;
+}
+
+/* ✅ 가격 */
+.price {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+.listPrice {
+  margin-left: 8px;
+  color: #999;
+  text-decoration: line-through;
+  font-size: 0.95rem;
+}
+
+.discount {
+  color: #d32f2f;
+  font-weight: 600;
+  margin-left: 6px;
+}
+
+/* ✅ 요약/설명 */
+.summary {
+  margin-top: 12px;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-line;
+}
+
+/* ✅ 평점 및 코멘트 섹션 */
+.commentSection {
+  width: 100%;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.commentSection h3 {
+  font-size: 1.3rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* ✅ 입력 박스 */
+.inputBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.inputBox input,
+.inputBox textarea {
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.inputBox textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.inputBox button {
+  align-self: flex-end;
+  padding: 0.5rem 1.2rem;
+  background-color: #4b8cff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.inputBox button:hover {
+  background-color: #357ae8;
+}
+
+/* ✅ 코멘트 목록 */
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.commentItem {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.commentItem p:first-child {
+  font-weight: 600;
+  color: #f5b301;
+  margin-bottom: 0.3rem;
+}
+
+.favoriteArea {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem;
+}
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.favoriteBtn:hover {
+  transform: scale(1.1);
+}
+
+.cartBtn {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+  margin-top: 0.6rem;
+}
+
+.cartBtn:hover {
+  background-color: #0059c1;
+}
+
+/* ✅ 반응형 대응 */
+@media (max-width: 768px) {
+  .detailContainer {
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+  }
+
+  .cover {
+    width: 200px;
+  }
+
+  .info {
+    align-items: center;
+    text-align: center;
+  }
+
+  .info h2 {
+    font-size: 1.5rem;
+  }
+
+  .inputBox button {
+    align-self: center;
+    width: 100%;
+  }
+}

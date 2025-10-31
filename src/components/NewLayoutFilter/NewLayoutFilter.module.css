@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.filterBox {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    width: 999px;
+    height: 57px;
+    background-color: rgba(27, 86, 236, 0.05);
+    position: absolute;
+    margin-left: 561px;
+    top: 170px;
+    padding: 25px 28px 24px 21px; 
+    border-bottom: 1px solid #E9E9E9;
+}
+
+.filterInner {
+    display: flex;
+    gap: 12px;
+}
+
+.sortList {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sortList li {
+    font-family: "Pretendard", sans-serif;
+    font-size: 12px;
+}
+
+.sortList li:hover {
+    font-weight: bold;
+}
+
+.filterButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.filterIcon {
+    width: 20px;
+    height: 20px;
+}

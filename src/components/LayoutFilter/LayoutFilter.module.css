@@ -1,0 +1,35 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.filterBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 999px;
+    height: 57px;
+    background-color: rgba(27, 86, 236, 0.05);
+    position: absolute;
+    margin-left: 561px;
+    top: 170px;
+    padding-right: 28px;
+    border-bottom: 1px solid #E9E9E9;
+}
+
+.filterInner {
+    display: flex;
+    gap: 12px;
+}
+
+.filterButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.filterIcon {
+    width: 20px;
+    height: 20px;
+}

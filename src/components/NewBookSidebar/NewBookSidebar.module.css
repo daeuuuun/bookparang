@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.sidebar {
+    margin-left: 360px;
+    width: 201px;
+    height: auto;
+    border-left: 1px solid #E9E9E9;
+    border-right: 1px solid #E9E9E9;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.bestSellerBox {
+    width: 100%;
+}
+
+.wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 17px;
+}
+
+.title {
+    font-family: "Pretendard", sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #212121;
+    height: 61px;
+    display: flex;
+    padding-top: 30px;
+    padding-left: 10px;
+}
+
+.NewcategoryList {
+    display: flex;
+    flex-direction: column;
+}
+
+.categoryItem {
+    font-family: "Pretendard", sans-serif;
+    font-size: 12px;
+    padding: 10px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    color: #000;
+    cursor: pointer;
+}
+
+.categoryItem:before {
+  content: '•';
+  color: #000;
+  display: inline-block;
+  width: 10px;
+  margin-right: 8px;
+}
+
+.categoryItem:hover {
+  color: #0C4CDB;
+  background-color: #E9EFFE;
+}
+
+.categoryItem:hover:before {
+  color: #0C4CDB;
+}
+
+.categoryDivider {
+    width: 201px;
+    height: 1px;
+    background-color: #E9E9E9;
+    margin-top: 20px;
+}

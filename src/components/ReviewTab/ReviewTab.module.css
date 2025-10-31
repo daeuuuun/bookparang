@@ -1,0 +1,69 @@
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+}
+
+.item {
+  display: flex;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.image {
+  width: 100px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.info {
+  flex: 1;
+}
+
+.rating {
+  margin: 8px 0;
+}
+
+.star {
+  font-size: 22px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+.starActive {
+  font-size: 22px;
+  color: #f5a623;
+  cursor: pointer;
+}
+
+.textarea {
+  width: 100%;
+  height: 80px;
+  padding: 8px;
+  margin-top: 4px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  resize: vertical;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.actions button {
+  margin-right: 10px;
+  background: #eee;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #ddd;
+}
