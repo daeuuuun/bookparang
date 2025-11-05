@@ -1,0 +1,41 @@
+.scrollButton {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--light-bg-color);
+  color: var(--light-gray-100);
+  border: 1px solid var(--light-gray-10);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* 버튼 등장 시 */
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* hover 시 */
+.scrollButton:hover {
+  background-color: var(--light-primary-color);
+  color: var(--light-bg-color);
+}
+
+.scrollButton:hover .icon {
+  filter: brightness(0) invert(1);
+}
+
+/* 아이콘 스타일 */
+.icon {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(0);
+}

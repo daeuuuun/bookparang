@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import LayoutFilter from "../../components/LayoutFilter/LayoutFilter";
@@ -7,54 +7,26 @@ import BookRow from "../../components/BookRow/BookRow";
 import styles from "./BestSellerPage.module.css";
 import type { Book } from "../../types/books";
 import type { Review } from "../../types/review";
+import useMediaQuery from "../../hooks/useMediaQuery"; // ✅ 추가
 
 export default function BestSellerPage() {
   const [view, setView] = useState<"list" | "card">("list");
   const [books, setBooks] = useState<Book[]>([]);
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
-  const [reviewAverages, setReviewAverages] = useState<Record<string, number>>({}); // ✅ 추가
+  const [reviewAverages, setReviewAverages] = useState<Record<string, number>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [, setSelectedCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("종합 베스트");
 
-  // ✅ 로그인 여부 확인
-  const fetchUser = useCallback(async () => {
-    try {
-      const res = await axios.get("http://localhost:4000/api/users/me", {
-        withCredentials: true,
-      });
-      if (res.data) setIsLoggedIn(true);
-    } catch {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
-  // ✅ 찜 상태 불러오기
-  const fetchFavorites = useCallback(
-    async (bookList: Book[]) => {
-      if (!isLoggedIn) return;
-      const favMap: Record<string, boolean> = {};
-      await Promise.all(
-        bookList.map(async (book) => {
-          try {
-            const res = await axios.get(
-              `http://localhost:4000/api/wishlist/${book.isbn}`,
-              { withCredentials: true }
-            );
-            favMap[book.isbn] = res.data.isFavorited;
-          } catch {
-            favMap[book.isbn] = false;
-          }
-        })
-      );
-      setFavorites(favMap);
-    },
-    [isLoggedIn]
-  );
+  const isMobile = useMediaQuery("(max-width: 768px)"); // ✅ 모바일 감지
 
   // ✅ 찜 토글
-  const toggleFavorite = async (isbn: string) => {
+  const toggleFavorite = async (isbn: string | undefined) => {
+    if (!isbn) {
+      alert("ISBN 정보가 없어 찜 기능을 사용할 수 없습니다 😢");
+      return;
+    }
     if (!isLoggedIn) {
       alert("로그인 후 이용해주세요 😄");
       return;
@@ -80,9 +52,18 @@ export default function BestSellerPage() {
   };
 
   // ✅ 장바구니 추가
-  const addToCart = async (isbn: string) => {
+  const addToCart = async (isbn: string | undefined) => {
+    if (!isbn) {
+      alert("ISBN 정보가 없어 장바구니에 담을 수 없습니다 😢");
+      return;
+    }
+
     try {
-      await axios.post(`http://localhost:4000/api/cart/${isbn}`, {}, { withCredentials: true });
+      await axios.post(
+        `http://localhost:4000/api/cart/${isbn}`,
+        {},
+        { withCredentials: true }
+      );
       alert("🛒 장바구니에 추가되었습니다!");
     } catch (err) {
       console.error("❌ 장바구니 추가 실패:", err);
@@ -90,43 +71,59 @@ export default function BestSellerPage() {
     }
   };
 
-  // ✅ 베스트셀러 불러오기 + 리뷰 평균 계산
+  // ✅ 데이터 불러오기
   useEffect(() => {
-    const fetchBestsellers = async () => {
+    const fetchData = async () => {
       setLoading(true);
       setError(null);
 
       try {
+        // ✅ 로그인 상태 확인
+        try {
+          const res = await axios.get("http://localhost:4000/api/users/me", {
+            withCredentials: true,
+          });
+          setIsLoggedIn(!!res.data);
+        } catch {
+          setIsLoggedIn(false);
+        }
+
+        // ✅ 베스트셀러 불러오기 (카테고리별)
+        const params =
+          selectedCategory === "종합 베스트" ? {} : { category: selectedCategory };
         const res = await axios.get<Book[]>(
-          "http://localhost:4000/api/books/bestseller"
+          "http://localhost:4000/api/books/bestseller",
+          { params }
         );
 
-        const mappedBooks: Book[] = res.data.map((b, index) => ({
-          isbn: b.isbn ?? `temp-isbn-${index}`,
-          title: b.title,
-          author: b.author,
-          salePrice: b.salePrice ?? 0,
-          listPrice: b.listPrice ?? b.salePrice ?? 0,
-          discountRate: b.discountRate ?? 0,
-          rating: b.rating ?? 0,
-          image:
-            b.image ??
-            `https://via.placeholder.com/150?text=${encodeURIComponent(
-              b.title.slice(0, 30)
-            )}`,
-          publisher: b.publisher ?? "",   // ✅ 출판사
-          pubDate: b.pubDate ?? "",       // ✅ 출간일
-          comment: b.comment ?? "",       // ✅ 코멘트
-          category: b.category ?? "기타",
-        }));
+        const mappedBooks: Book[] = res.data
+          .filter((b) => b.isbn)
+          .map((b, index) => ({
+            isbn: b.isbn ?? `temp-isbn-${index}`,
+            title: b.title,
+            author: b.author,
+            salePrice: b.salePrice ?? 0,
+            listPrice: b.listPrice ?? b.salePrice ?? 0,
+            discountRate: b.discountRate ?? 0,
+            rating: b.rating ?? 0,
+            image:
+              b.image ??
+              `https://via.placeholder.com/150?text=${encodeURIComponent(
+                b.title.slice(0, 15)
+              )}`,
+            publisher: b.publisher ?? "",
+            pubDate: b.pubDate ?? "",
+            comment: b.comment ?? "",
+            category: b.category ?? "기타",
+          }));
 
-        console.log("📚 API raw data:", res.data[0]);
         setBooks(mappedBooks);
 
-        // ✅ 리뷰 평균 불러오기
+        // ✅ 리뷰 평균
         const avgMap: Record<string, number> = {};
         await Promise.all(
           mappedBooks.map(async (book) => {
+            if (!book.isbn) return;
             try {
               const res = await axios.get<Review[]>(
                 `http://localhost:4000/api/reviews/${book.isbn}`
@@ -144,68 +141,81 @@ export default function BestSellerPage() {
         );
         setReviewAverages(avgMap);
 
-        // ✅ 찜 상태 불러오기
-        await fetchUser();
-        await fetchFavorites(mappedBooks);
+        // ✅ 찜 상태
+        if (isLoggedIn) {
+          const favMap: Record<string, boolean> = {};
+          await Promise.all(
+            mappedBooks.map(async (book) => {
+              if (!book.isbn) return;
+              try {
+                const res = await axios.get(
+                  `http://localhost:4000/api/wishlist/${book.isbn}`,
+                  { withCredentials: true }
+                );
+                favMap[book.isbn] = res.data.isFavorited;
+              } catch {
+                favMap[book.isbn] = false;
+              }
+            })
+          );
+          setFavorites(favMap);
+        } else {
+          setFavorites({});
+        }
       } catch (err) {
-        console.error("❌ 베스트셀러 불러오기 실패:", err);
-        setError("베스트셀러 목록을 불러오지 못했습니다.");
+        console.error("❌ 데이터 불러오기 실패:", err);
+        setError("도서 데이터를 불러오지 못했습니다 😢");
       } finally {
         setLoading(false);
       }
     };
 
-    fetchBestsellers();
-  }, [fetchUser, fetchFavorites]);
+    fetchData();
+  }, [selectedCategory]);
 
   // ✅ 로딩 / 에러 처리
   if (loading)
     return <p className={styles.loading}>📚 도서 목록을 불러오는 중...</p>;
-  if (error)
-    return <p className={styles.error}>{error}</p>;
+  if (error) return <p className={styles.error}>{error}</p>;
 
-  // ✅ 도서 목록 렌더링
   return (
     <>
       <div className={styles.container}>
-        <h2 className={styles.title}>🔥 베스트셀러</h2>
+        <h2 className={styles.title}>🔥 {selectedCategory}</h2>
         <div className={styles.line} />
       </div>
 
-      <Sidebar onCategorySelect={setSelectedCategory} />
-      <LayoutFilter view={view} onChange={(m) => setView(m)} />
+      {/* ✅ 사이드바 유지 */}
+      <Sidebar
+        onCategorySelect={setSelectedCategory}
+        selectedCategory={selectedCategory}
+      />
+
+      {/* ✅ 모바일에서는 LayoutFilter의 view 전환 버튼 숨김 */}
+      <LayoutFilter
+        view={view}
+        onChange={(m) => setView(m)}
+        showSort={!isMobile}
+      />
 
       {books.length > 0 ? (
         <div className={styles.bookList}>
-          {view === "list" ? (
-            <>
-              {/* 첫 번째 책 */}
+          {/* ✅ 모바일에서는 항상 BookRow */}
+          {isMobile || view === "list" ? (
+            books.slice(0, 15).map((book, i) => (
               <BookRow
-                key={books[0].isbn}
-                book={books[0]}
-                rank={1}
-                isFavorited={favorites[books[0].isbn] ?? false}
+                key={book.isbn}
+                book={book}
+                rank={i + 1}
+                isFavorited={favorites[book.isbn] ?? false}
                 onFavorite={toggleFavorite}
                 onAddCart={addToCart}
-                reviewAverage={reviewAverages[books[0].isbn] ?? undefined}
+                reviewAverage={reviewAverages[book.isbn] ?? undefined}
               />
-
-              {/* 나머지 책 */}
-              {books.slice(1, 30).map((book, i) => (
-                <BookRow
-                  key={book.isbn}
-                  book={book}
-                  rank={i + 2}
-                  isFavorited={favorites[book.isbn] ?? false}
-                  onFavorite={toggleFavorite}
-                  onAddCart={addToCart}
-                  reviewAverage={reviewAverages[book.isbn] ?? undefined}
-                />
-              ))}
-            </>
+            ))
           ) : (
             <div className={styles.tileGrid}>
-              {books.slice(0, 30).map((book, i) => (
+              {books.slice(0, 15).map((book, i) => (
                 <BookTile
                   key={book.isbn}
                   book={book}

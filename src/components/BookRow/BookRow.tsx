@@ -8,6 +8,7 @@ import type { Book } from "../../types/books";
 interface Props {
   book: Book;
   rank?: number;
+  showRank?: boolean; // ✅ 추가
   isFavorited: boolean;
   reviewAverage?: number;
   onFavorite: (isbn: string) => void;
@@ -18,6 +19,7 @@ interface Props {
 export default function BookRow({
   book,
   rank,
+  showRank = true, // ✅ 기본값 true → 베스트셀러는 그대로
   isFavorited,
   reviewAverage,
   onFavorite,
@@ -26,8 +28,18 @@ export default function BookRow({
 }: Props) {
   return (
     <div className={styles.row} onClick={onClick}>
-      <h2 className={styles.number}>{rank ?? 1}</h2>
-      <img src={book.image} alt={book.title} className={styles.image} />
+      {showRank ? (
+        <h2 className={styles.number}>{rank ?? 1}</h2> // ✅ 숫자 보임
+      ) : (
+        <div className={styles.numberPlaceholder}></div> // ✅ 공간만 유지
+      )}
+
+      <div
+        className={styles.imageWrapper}
+        style={{ ["--bg" as unknown as string]: `url(${book.image})` }}
+      >
+        <img src={book.image} alt={book.title} className={styles.image} />
+      </div>
 
       <div className={styles.info}>
         <h4 className={styles.title}>{book.title}</h4>
@@ -63,7 +75,6 @@ export default function BookRow({
         )}
       </div>
 
-      {/* 버튼 */}
       <div className={styles.button}>
         <button
           className={styles.cart}

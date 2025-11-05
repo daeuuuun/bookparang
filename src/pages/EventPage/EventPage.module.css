@@ -21,7 +21,7 @@
 }
 
 .eventSubtitle {
-  color: #888;
+  color: var(--light-gray-70);
   font-size: 16px;
   line-height: 1.2;
   margin: 0;
@@ -33,6 +33,7 @@
   margin-top: 2px;
   margin-bottom: 8px;
   line-height: 1.1;
+  color: var(--light-gray-100);
 }
 
 /* 탭 + 검색 영역 */
@@ -54,14 +55,14 @@
 
 .tab {
   font-size: 12px;
-  color: #555;
+  color: var(--light-gray-70);
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .active {
   font-weight: 600;
-  color: #212121;
+  color: var(--light-gray-100);
 }
 
 /* 검색창 */
@@ -80,6 +81,7 @@
   border-radius: 49px;
   font-size: 12px;
   outline: none;
+  color: var(--light-gray-100);
 }
 
 .searchInput::placeholder {
@@ -119,14 +121,14 @@
   aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
-  background: #fff;
-  border: 1px solid #eee;
+  background: var(--light-bg-color);
+  border: 1px solid var(--light-gray-10);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .eventCard:hover {
   transform: translateY(-5px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .eventImage {
@@ -146,13 +148,13 @@
 
 .eventName {
   font-size: 16px;
-  color: #212121;
+  color: var(--light-gray-100);
 }
 
 .eventDate {
   font-size: 16px;
   font-weight: 600;
-  color: #212121;
+  color: var(--light-gray-100);
 }
 
 /* ---------- 페이지네이션 ---------- */
@@ -171,7 +173,7 @@
 
 .pageNumber {
   font-size: 16px;
-  color: #212121;
+  color: var(--light-gray-100);
   cursor: pointer;
 }
 
@@ -179,8 +181,8 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-color: #212121;
-  color: #fff;
+  background-color: var(--light-gray-100);
+  color: var(--light-bg-color);
   font-size: 14px;
   cursor: default;
 }
@@ -189,15 +191,16 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  border: 1px solid #212121;
-  background-color: #fff;
+  border: 1px solid var(--light-gray-100);
+  background-color: var(--light-bg-color);
   font-size: 16px;
   cursor: pointer;
-  color: #212121;
+  color: var(--light-gray-100);
 }
 
 .pageArrow:hover {
-  color: #000;
+  color: var(--light-primary-color);
+  border-color: var(--light-primary-color);
 }
 
 /* ---------- 구분선 ---------- */
@@ -206,7 +209,7 @@
   grid-column: 1 / -1;
   height: 1px;
   border: none;
-  background-color: #e6e6e6;
+  background-color: var(--light-gray-10);
   margin: 0;
   width: 100%;
 }
@@ -221,7 +224,7 @@
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 6px;
-  color: #212121;
+  color: var(--light-gray-100);
 }
 
 .detailDate {

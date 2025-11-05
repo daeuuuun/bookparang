@@ -1,4 +1,3 @@
-// src/data/categoriesData.js
 export const categories = [
   "소설",
   "에세이",

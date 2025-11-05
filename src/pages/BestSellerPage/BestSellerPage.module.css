@@ -1,41 +1,75 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    position: relative;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 4px;
 }
 
 .title {
-    display: flex;
-    font-size: 30px;
-    font-weight: bold;
-    font-family: "Pretendard", sans-serif;
-    color: #212121;
-    margin-top: 121px;
-    margin-bottom: 14px;
-    margin-left: 360px;
+  display: flex;
+  font-size: 1.875rem; /* 30px */
+  font-weight: bold;
+  font-family: "Pretendard", sans-serif;
+  color: var(--light-gray-100);
+  margin-top: 7.5rem; /* 121px */
+  margin-bottom: 0.875rem; /* 14px */
+  margin-left: 22.5rem; /* 360px */
 }
 
 .line {
-    width: 100%;
-    height: 1px;
-    background-color: #E9E9E9;
-    position: absolute;
-    top: 170px;
-    left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--light-gray-10);
+  position: absolute;
+  top: 10.625rem; /* 170px */
+  left: 0;
 }
 
 .bookList {
-    position: absolute;
-    top: 227px;
-    left: 0;
-    width: 100%;
+  position: absolute;
+  top: 14.1875rem; /* 227px */
+  left: 0;
+  width: 100%;
 }
 
 .tileGrid {
-    display: grid;
-    grid-template-columns: repeat(4, 249px);
-    /* 한 행에 4개 고정 */
-    padding-left: 561px;
-    justify-content: start;
-    align-items: start;
+  display: grid;
+  grid-template-columns: repeat(4, 249px);
+  padding-left: 35rem; /* 561px */
+  justify-content: start;
+  align-items: start;
+}
+
+@media (max-width: 1200px) {
+  .title {
+    margin: 2rem 1rem;
+    font-size: 1.375rem;
+  }
+
+  .line {
+    position: static;
+    margin: 0 1rem;
+  }
+
+  .bookList {
+    position: static;
+    padding: 1rem;
+  }
+
+  .tileGrid {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 0rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tileGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+    margin: 1.5rem 1rem;
+  }
 }

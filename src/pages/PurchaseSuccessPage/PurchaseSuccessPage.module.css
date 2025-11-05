@@ -1,25 +1,170 @@
 .container {
-  text-align: center;
-  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 5rem 0;
 }
 
-.actions {
-  margin-top: 2rem;
+.title {
+  width: 100%;
+  max-width: 60rem;
+  font-size: 1.875rem;
+  font-weight: bold;
+  color: var(--light-gray-100);
+  margin-top: 3rem;
+}
+
+.container hr {
+  display: block;
+  width: 100%;
+  height: 1px;
+  border: none;
+  background-color: var(--light-gray-10);
+  margin: 1.5rem 0;
+}
+
+.box {
+  width: 100%;
+  max-width: 60rem;
+  background-color: #fff;
+  border: 1px solid var(--light-gray-70);
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.message h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.message p {
+  color: var(--light-gray-70);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.highlight {
+  color: var(--point-color);
+}
+
+.bookList {
+  border-top: 1px solid var(--light-gray-10);
+  border-bottom: 1px solid var(--light-gray-10);
+  padding: 1.5rem 0;
+}
+
+.bookItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.bookImg {
+  width: 6rem;
+  height: 8rem;
+  object-fit: cover;
+  border: 1px solid var(--light-gray-10);
+}
+
+.bookInfo h4 {
+  font-size: 1rem;
+  color: var(--light-gray-100);
+  margin-bottom: 0.25rem;
+}
+
+.bookInfo p {
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--light-gray-100);
+}
+
+.tag {
+  font-size: 0.875rem;
+  color: var(--light-gray-70);
+  margin-left: 0.25rem;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  font-weight: bold;
+  color: var(--light-gray-70);
+  gap: 0.5rem;
+}
+
+.totalPrice {
+  color: var(--point-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.btnGroup {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
-.actions button {
-  padding: 0.7rem 1.5rem;
+.myBtn {
+  border: 1px solid var(--light-gray-70);
+  color: var(--light-gray-100);
+  background: #fff;
+  font-size: 1rem;
+  padding: 0.9rem 2rem;
+  border-radius: 0.3125rem;
+  cursor: pointer;
+}
+
+.bestBtn {
+  background-color: var(--light-primary-color);
+  color: #fff;
   border: none;
-  border-radius: 8px;
-  background-color: #0070f3;
-  color: white;
+  font-size: 1rem;
+  padding: 0.9rem 2rem;
+  border-radius: 0.3125rem;
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
-.actions button:hover {
+.bestBtn:hover {
   background-color: #005ac2;
+}
+
+/* 모바일 */
+@media (max-width: 1200px) {
+  .container {
+    margin: 2rem 1rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .box {
+    padding: 1.5rem;
+  }
+
+  .bookImg {
+    width: 4.5rem;
+    height: 6rem;
+  }
+
+  .totalPrice {
+    font-size: 1.25rem;
+  }
+
+  .btnGroup {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .myBtn,
+  .bestBtn {
+    width: 100%;
+  }
 }

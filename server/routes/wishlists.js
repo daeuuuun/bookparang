@@ -113,8 +113,9 @@ router.get("/", auth, async (req, res) => {
       isbn: { $in: list.map((w) => w.bookIsbn) },
     }).select("isbn title author image salePrice");
 
-    // createdAt 순서 유지
-    const merged = Wishlist.map((w) => ({
+    // ✅ 여기! list를 map 해야 함
+    console.log("💬 list 타입:", typeof list, Array.isArray(list));
+    const merged = list.map((w) => ({
       bookIsbn: w.bookIsbn,
       createdAt: w.createdAt,
       book: books.find((b) => b.isbn === w.bookIsbn),

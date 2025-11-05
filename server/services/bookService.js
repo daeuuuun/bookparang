@@ -44,7 +44,7 @@ export const fetchBooks = async (queryType, category, sort) => {
   let start = 1;
   const seen = new Set();
   const MAX_RESULTS = 50; // 한 번에 가져올 최대 수
-  const TARGET_COUNT = 30; // 우리가 필요한 수
+  const TARGET_COUNT = 15; // 우리가 필요한 수
 
   console.log(`🚀 [fetchBooks] ${queryType} 목록 요청 시작`);
 

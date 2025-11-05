@@ -91,7 +91,7 @@ export default function useBookSearchWithAutoComplete() {
       const titles = res.data.documents.map((book) => book.title);
       setSuggestions(titles);
     } catch (err) {
-      console.error(err);
+      console.error("❌ 자동완성 실패:", err);
       setSuggestions([]);
     }
   };

@@ -1,113 +1,185 @@
-.container {
+/* 전체 레이아웃 */
+.pageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  max-width: 500px;
-  margin: 3rem auto;
+  margin-top: 25px;
+}
+
+/* 상단 검색창 */
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  height: 40px;
+  border-radius: 40px;
+  background-color: rgba(27, 86, 236, 0.1); /* primary color 기반 반투명 */
   position: relative;
 }
 
-.input {
+.searchInput {
   width: 100%;
-  padding: 12px 16px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  padding: 0 45px 0 20px;
   font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  color: var(--light-gray-70);
   outline: none;
-  transition: border-color 0.2s ease;
 }
 
-.input:focus {
-  border-color: #0078ff;
-  box-shadow: 0 0 4px rgba(0, 120, 255, 0.3);
-}
-
-/* 자동완성 리스트 */
-.suggestions {
+.searchButton {
   position: absolute;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 4px;
-  list-style: none;
-  padding: 4px 0;
-  overflow: hidden;
-  z-index: 10;
-  animation: fadeIn 0.25s ease-in-out;
-  color: var(--light-text-color);
+  right: 15px;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-/* 리스트 아이템 */
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* 하단 결과 박스 */
+.container {
+  width: 600px;
+  height: 300px;
+  border: 2px solid var(--light-primary-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  margin-top: 23px;
+  background: var(--light-bg-color);
+  position: relative;
+  transition: all 0.3s ease;
+  animation: fadeIn 0.25s ease;
+}
+
+/* 자동완성 + 미리보기 영역 */
+.resultContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  padding-bottom: 29px; /* 닫기 버튼 공간 확보 */
+  box-sizing: border-box;
+}
+
+/* 왼쪽 자동완성 */
+.suggestions {
+  width: 60%;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  border-right: 1px solid var(--light-gray-10);
+  overflow-y: auto;
+}
+
 .item {
-  padding: 10px 14px;
+  padding: 10px 16px;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
 
 .item:hover {
-  background-color: #f3f3f3;
+  background-color: rgba(27, 86, 236, 0.1); /* primary 색상 기반 hover */
 }
 
-/* 부드러운 페이드인 */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 오른쪽 미리보기 */
+.preview {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-/* 검색 결과 */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 16px;
-  margin-top: 2rem;
+.loading {
+  color: var(--light-gray-70);
 }
 
 .card {
-  background: white;
-  border: 1px solid #eee;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .thumbnail {
-  width: 100%;
-  height: 180px;
+  width: 100px;
+  height: 140px;
   object-fit: cover;
   border-radius: 6px;
+}
+
+.bookInfo {
+  margin-top: 10px;
 }
 
 .title {
   font-size: 15px;
   font-weight: 600;
-  margin-top: 8px;
+  color: var(--light-gray-100);
 }
 
 .authors {
-  color: #777;
   font-size: 13px;
-  margin-top: 2px;
+  color: var(--light-gray-70);
+  margin-top: 4px;
 }
 
 .price {
-  font-size: 14px;
+  font-size: 13px;
   margin-top: 6px;
+  color: var(--light-gray-100);
 }
 
-.loading {
+/* 닫기 버튼 영역 */
+.closeDiv {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 29px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: rgba(27, 86, 236, 0.05);
+  border-top: 1px solid var(--light-gray-10);
+}
+
+.closeButton {
+  margin-right: 19px;
+  background: transparent;
+  border: none;
+  color: var(--light-gray-100);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: var(--light-primary-color);
+}
+
+/* "검색어 없음" 안내 문구 */
+.empty {
   text-align: center;
-  margin-top: 1.5rem;
-  color: #666;
+  padding: 40px 10px;
+  color: var(--light-gray-70);
+  font-size: 14px;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

@@ -2,19 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from "./CartPage.module.css";
 import { useNavigate } from "react-router-dom";
-
-interface CartBook {
-  isbn: string;
-  title: string;
-  author?: string;
-  image?: string;
-  salePrice?: number;
-}
+import type { Book } from "../../types/books";
 
 interface CartItem {
   bookIsbn: string;
   quantity: number;
-  book?: CartBook;
+  book?: Book;
 }
 
 const CartPage: React.FC = () => {
@@ -30,6 +23,7 @@ const CartPage: React.FC = () => {
         const res = await axios.get<CartItem[]>("http://localhost:4000/api/cart", {
           withCredentials: true,
         });
+        console.log("🛒 CART DATA:", res.data);
         setCart(res.data);
       } catch (err) {
         console.error("❌ 장바구니 불러오기 실패:", err);
@@ -77,34 +71,46 @@ const CartPage: React.FC = () => {
     }
   };
 
+  // ✅ 결제
   const handleCheckoutSelected = async () => {
     if (selectedItems.length === 0) {
       alert("결제할 도서를 선택하세요!");
       return;
     }
 
-    // 선택한 도서 정보 추출
     const selectedBooks = cart
       .filter((item) => selectedItems.includes(item.bookIsbn))
       .map((item) => ({
-        isbn: item.bookIsbn,
+        id: item.book?.isbn,
+        title: item.book?.title || "",
         price: item.book?.salePrice || 0,
+        image: item.book?.image || "",
+        tag:
+          item.book?.listPrice && item.book?.salePrice &&
+            item.book?.salePrice < item.book?.listPrice
+            ? "정가"
+            : "",
       }));
 
+    const totalPrice = selectedBooks.reduce((sum, b) => sum + b.price, 0);
+
     try {
-      // ✅ 서버에 결제 요청 (DB에 구매 정보 저장)
       await axios.post(
         "http://localhost:4000/api/purchase",
-        { books: selectedBooks },
+        { books: selectedBooks.map((b) => ({ isbn: b.id, price: b.price })) },
         { withCredentials: true }
       );
 
-      // ✅ 장바구니에서 선택 항목 제거 (결제 완료 후 비우기)
       setCart((prev) => prev.filter((item) => !selectedItems.includes(item.bookIsbn)));
       setSelectedItems([]);
 
-      // ✅ 결제 완료 페이지로 이동
-      navigate("/purchase");
+      // ✅ 결제 완료 페이지로 이동하면서 데이터 전달
+      navigate("/purchase", {
+        state: {
+          purchasedBooks: selectedBooks,
+          totalPrice,
+        },
+      });
     } catch (err) {
       console.error("❌ 결제 실패:", err);
       alert("결제 중 오류가 발생했습니다 😢");
@@ -120,78 +126,157 @@ const CartPage: React.FC = () => {
     }
   };
 
-  const total = cart
-    .filter((item) => selectedItems.includes(item.bookIsbn))
-    .reduce((sum, item) => sum + (item.book?.salePrice ?? 0), 0);
+  // ✅ 가격 계산
+  const selectedBooks = cart.filter((item) => selectedItems.includes(item.bookIsbn));
+
+  const totalListPrice = selectedBooks.reduce(
+    (sum, item) => sum + (item.book?.listPrice ?? 0),
+    0
+  );
+
+  const totalSalePrice = selectedBooks.reduce(
+    (sum, item) => sum + (item.book?.salePrice ?? 0),
+    0
+  );
+
+  const totalDiscount = totalListPrice - totalSalePrice;
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.title}>🛒 장바구니</h2>
+    <>
+      <h2 className={styles.title}>장바구니</h2>
+      <hr className={styles.hrLine} />
 
-      {cart.length === 0 ? (
-        <p className={styles.empty}>장바구니가 비어 있습니다 😢</p>
-      ) : (
-        <>
-          {/* ✅ 전체 선택 버튼 */}
-          <div className={styles.actions}>
-            <button onClick={toggleSelectAll}>
-              {selectedItems.length === cart.length ? "❌ 전체 해제" : "✅ 전체 선택"}
-            </button>
-            <span className={styles.selectedCount}>
-              선택된 도서: {selectedItems.length}권
-            </span>
-          </div>
+      <div className={styles.container}>
+        {/* 왼쪽 장바구니 */}
+        <div className={styles.cartSection}>
+          {cart.length === 0 ? (
+            <p className={styles.empty}>장바구니가 비어 있습니다 😢</p>
+          ) : (
+            <>
+              <div className={styles.actions}>
+                {/* 전체 선택 체크박스 */}
+                <label className={styles.selectAll}>
+                  <input
+                    type="checkbox"
+                    checked={selectedItems.length === cart.length && cart.length > 0}
+                    onChange={toggleSelectAll}
+                  />
+                  <span className={styles.checkmark}></span>
+                  <span>모두 선택</span>
+                </label>
 
-          {/* ✅ 도서 리스트 */}
-          <ul className={styles.list}>
-            {cart.map((item) => (
-              <li key={item.bookIsbn} className={styles.item}>
-                <input
-                  type="checkbox"
-                  checked={selectedItems.includes(item.bookIsbn)}
-                  onChange={(e) => {
-                    if (e.target.checked) {
-                      setSelectedItems((prev) => [...prev, item.bookIsbn]);
-                    } else {
-                      setSelectedItems((prev) =>
-                        prev.filter((id) => id !== item.bookIsbn)
-                      );
-                    }
-                  }}
-                />
-                <img
-                  src={item.book?.image}
-                  alt={item.book?.title}
-                  className={styles.image}
-                />
-                <div className={styles.info}>
-                  <h4>{item.book?.title}</h4>
-                  <p>{item.book?.author}</p>
-                  <p>{item.book?.salePrice?.toLocaleString()}원</p>
+                <div className={styles.bulkActions}>
+                  <p>선택한 상품을 모두</p>
+                  <div className={styles.btns}>
+                    <button onClick={handleWishlistSelected}>관심도서</button>
+                    <button onClick={handleDeleteSelected}>삭제</button>
+                  </div>
+                  <p>합니다</p>
                 </div>
-                <button
-                  onClick={() => removeItem(item.bookIsbn)}
-                  className={styles.removeBtn}
-                >
-                  ❌
-                </button>
-              </li>
-            ))}
-          </ul>
+              </div>
 
-          {/* ✅ 선택한 항목 전체 액션 */}
-          <div className={styles.bulkActions}>
-            <button onClick={handleDeleteSelected}>🗑️ 선택 삭제</button>
-            <button onClick={handleWishlistSelected}>💖 선택 찜하기</button>
-            <button onClick={handleCheckoutSelected}>💳 선택 결제</button>
+              <ul className={styles.list}>
+                {cart.map((item) => {
+                  const salePrice = item.book?.salePrice ?? 0;
+                  const listPrice = item.book?.listPrice ?? 0;
+                  const discountRate =
+                    listPrice > 0
+                      ? Math.round(((listPrice - salePrice) / listPrice) * 100)
+                      : 0;
+
+                  return (
+                    <li key={item.bookIsbn} className={styles.item}>
+                      {/* 개별 체크박스 */}
+                      <label className={styles.selectAll}>
+                        <input
+                          type="checkbox"
+                          checked={selectedItems.includes(item.bookIsbn)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedItems((prev) => [...prev, item.bookIsbn]);
+                            } else {
+                              setSelectedItems((prev) =>
+                                prev.filter((id) => id !== item.bookIsbn)
+                              );
+                            }
+                          }}
+                        />
+                        <span className={styles.checkmark}></span>
+                      </label>
+
+                      {/* 도서 이미지 */}
+                      <img
+                        src={item.book?.image}
+                        alt={item.book?.title}
+                        className={styles.image}
+                      />
+
+                      {/* 도서 정보 */}
+                      <div className={styles.info}>
+                        <h4>{item.book?.title}</h4>
+                        <p>
+                          <span className={styles.salePrice}>
+                            {salePrice.toLocaleString()}원
+                          </span>
+                          {listPrice > 0 && salePrice < listPrice && (
+                            <>
+                              <span className={styles.listPrice}>
+                                {listPrice.toLocaleString()}원
+                              </span>
+                              <span className={styles.discountRate}>
+                                ({discountRate}% 할인)
+                              </span>
+                            </>
+                          )}
+                        </p>
+                      </div>
+
+                      <button
+                        onClick={() => removeItem(item.bookIsbn)}
+                        className={styles.removeBtn}
+                      >
+                        삭제
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </>
+          )}
+        </div>
+
+        {/* 오른쪽 주문 요약 */}
+        <div className={styles.summarySection}>
+          <h3>주문 합계</h3>
+
+          <div className={styles.summaryRow}>
+            <span>상품수</span>
+            <span>{selectedItems.length}개</span>
           </div>
 
-          <div className={styles.total}>
-            총 합계: <b>{total.toLocaleString()}원</b>
+          <div className={styles.summaryRow}>
+            <span>상품 할인</span>
+            <span>{totalDiscount.toLocaleString()}원</span>
           </div>
-        </>
-      )}
-    </div>
+
+          <div className={styles.summaryRow}>
+            <span>총 금액</span>
+            <span>{totalListPrice.toLocaleString()}원</span>
+          </div>
+
+          <hr className={styles.hrLine} />
+
+          <div className={`${styles.summaryRow} ${styles.total}`}>
+            <span>최종 결제 금액</span>
+            <span>{totalSalePrice.toLocaleString()}원</span>
+          </div>
+
+          <button className={styles.checkoutBtn} onClick={handleCheckoutSelected}>
+            결제하기
+          </button>
+        </div>
+      </div>
+    </>
   );
 };
 

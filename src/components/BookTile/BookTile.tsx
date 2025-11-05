@@ -25,8 +25,10 @@ export default function BookTile({
 }: Props) {
   return (
     <div className={styles.tile} onClick={onClick}>
-      {/* 순위 */}
-      <h2 className={styles.number}>{rank ?? 1}</h2>
+      {/* ✅ 순위 공간은 유지하되, rank가 없으면 숫자 숨기기 */}
+      <h2 className={`${styles.number} ${rank === undefined ? styles.hiddenRank : ""}`}>
+        {rank}
+      </h2>
 
       {/* 이미지 */}
       <div
@@ -64,7 +66,6 @@ export default function BookTile({
             {reviewAverage ?? book.rating ?? "평점 없음"}
           </div>
         </div>
-
       </div>
 
       {/* 버튼 */}
