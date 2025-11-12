@@ -1,0 +1,125 @@
+.reviewList {
+  display: flex;
+  padding: 30px 30px;
+  border-bottom: 1px solid var(--light-gray-10);
+  gap: 16px;
+  position: relative;
+  width: 95%;
+}
+
+.image {
+  width: 122px;
+  height: 173px;
+}
+
+.infoWrap {
+  display: flex;
+  width: 100%;
+}
+
+.info {
+  width: 100%;
+}
+
+.title {
+  margin: 0 0 5px 0;
+  font-size: var(--font-xl);
+}
+
+.metaInfo {
+  display: flex;
+  gap: 5px;
+  color: var(--light-gray-70);
+}
+
+.starRating {
+  scale: 0.9;
+  transform-origin: left center;
+  margin-top: 25px;
+}
+
+.reviewEdit {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  width: 152px;
+  height: 44px;
+  background-color: var(--light-gray-10);
+  color: var(--light-gray-100);
+  font-size: var(--font-md);
+  font-weight: bold;
+}
+
+.delete {
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  width: 152px;
+  height: 44px;
+  background-color: transparent;
+  color: var(--light-gray-70);
+  font-size: var(--font-sm);
+  font-weight: 600;
+}
+
+.button {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 🌱 모바일 반응형: 1200px 이하 */
+@media (max-width: 1200px) {
+  .reviewList {
+    padding: 20px;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .image {
+    width: 122px;
+    height: 165px;
+    align-self: flex-start;
+  }
+
+  .infoWrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .title {
+    font-size: var(--font-lg);
+    margin-bottom: 8px;
+  }
+
+  .metaInfo {
+    flex-wrap: wrap;
+    gap: 3px;
+    font-size: var(--font-sm);
+  }
+
+  .starRating {
+    margin-top: 5px;
+    scale: 0.7;
+  }
+
+  .button {
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+
+  .reviewEdit {
+    max-width: 600px;
+    min-width: 60px;
+    height: 40px;
+    font-size: var(--font-md);
+  }
+
+  .delete {
+    max-width: 100px;
+    min-width: 60px;
+    height: 40px;
+    font-size: var(--font-sm);
+  }
+}

@@ -1,0 +1,245 @@
+.footer {
+    width: 100%;
+    height: auto;
+    background-color: #474747;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Pretendard", sans-serif;
+    padding-bottom: 1rem;
+}
+
+.footerInner {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 31px;
+}
+
+/* 로고 + 회사정보 */
+.companySection {
+    display: flex;
+    align-items: flex-start;
+    gap: 41px;
+}
+
+.logo {
+    width: 121px;
+    height: auto;
+    padding-top: 20px;
+}
+
+.companyInfo {
+    display: flex;
+    flex-direction: column;
+    color: #BCBCBD;
+}
+
+.companyName {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.companycontents {
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+/* 고객센터 영역 */
+.csSection {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-right: 100px;
+    color: #BCBCBD;
+}
+
+.csTitle {
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.cs {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.csPhone {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+.csTime {
+    font-size: 0.75rem;
+    margin-top: 8px;
+}
+
+.csButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.csButtons button {
+    color: #BCBCBD;
+    background-color: #474747;
+    border: 2px solid #79797B;
+    font-size: 0.75rem;
+    cursor: pointer;
+    width: 90px;
+    height: 30px;
+}
+
+.footerMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin-top: 36px;
+    width: 100%;
+    max-width: 1200px;
+    flex-wrap: nowrap;
+}
+
+.footerMenu li {
+    font-size: 1rem;
+    color: #BCBCBD;
+    transition: color 0.2s;
+    position: relative;
+}
+
+.footerMenu li:hover {
+    color: #3B89FF;
+    cursor: pointer;
+}
+
+.footerMenu li::after {
+    content: "|";
+    color: #BCBCBD;
+    margin-left: 19px;
+    margin-right: 19px;
+}
+
+.footerMenu li:last-child::after {
+    content: "";
+}
+
+/* ====== 클릭 가능한 링크 스타일 ====== */
+.linkItem {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.linkItem:hover {
+  color: #3b89ff;
+}
+
+/* ====== 비활성화된 메뉴/버튼 스타일 ====== */
+.disabledItem,
+.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none; /* 클릭 막기 */
+}
+
+.disabledBtn {
+  background-color: #555;
+  border: 2px solid #777;
+  color: #9e9e9e;
+}
+
+
+@media (max-width: 1200px) {
+    .footer {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
+
+    .footerMenu {
+        order: -1; /* 맨 위로 이동 */
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 0 0 20px 0;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #79797B;
+    }
+
+    .footerMenu li {
+        font-size: 0.75rem;
+    }
+
+    .footerMenu li::after {
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .footerInner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 0;
+    }
+
+    .companySection {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start; /* 왼쪽 정렬 */
+        text-align: left; /* 텍스트 왼쪽 정렬 */
+        width: 100%;
+        gap: 12px;
+    }
+
+    .logo {
+        align-self: center; 
+    }
+
+    .companyName {
+        display: none;
+    }
+
+    .csSection {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: 0 auto;
+        gap: 10px;
+        color: #BCBCBD;
+    }
+
+    .csTitle {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .csPhone {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .csTime {
+        display: none;
+    }
+
+    .csButtons {
+        justify-content: center;
+    }
+
+    .csButtons button {
+        border-radius: 5px;
+    }
+}

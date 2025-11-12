@@ -9,12 +9,22 @@ import reviewRoutes from "./routes/review.js";
 import wishlistRoutes from "./routes/wishlists.js";
 import cartRoutes from "./routes/carts.js";
 import purchaseRoutes from "./routes/purchases.js";
+import inquiryRoutes from "./routes/inquiry.js";
+import reportRoutes from "./routes/reports.js";
 import cookieParser from "cookie-parser";
+import path from "path";
+import fs from "fs";
 
 dotenv.config({ path: "./server/.env" });
 
 const app = express();
 const PORT = 4000;
+
+const uploadDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+  console.log("📁 uploads 폴더 자동 생성 완료");
+}
 
 // ✅ CORS 설정 (쿠키 포함)
 app.use(
@@ -27,6 +37,12 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  console.log("🌍 들어온 요청:", req.method, req.originalUrl);
+  next();
+});
+
+
 // ✅ MongoDB 연결
 mongoose
   .connect("mongodb://zoomedia.synology.me:27017/myapp_1g", {
@@ -37,13 +53,17 @@ mongoose
   .catch((err) => console.error("❌ MongoDB Connection Error:", err));
 
 // ✅ 라우트 설정
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
+
 app.use("/api/users", userRoutes);
 app.use("/api/books", booksRouter);
-app.use("/api/auth", userRoutes); // ✅ 인증 확인용 추가
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/purchase", purchaseRoutes);
+app.use("/api/inquiries", inquiryRoutes);
+app.use("/api/reports", reportRoutes);
+app.use("/api/auth", userRoutes);
 
 // ✅ 알라딘 API 프록시
 app.get("/api/aladin", async (req, res) => {

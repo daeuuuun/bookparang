@@ -4,6 +4,7 @@ export interface Book {
   author: string;
   publisher?: string;
   category?: string;
+  categoryId?: number;
 
   // 가격 관련
   salePrice?: number;

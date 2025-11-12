@@ -1,14 +1,37 @@
 import { useParams } from "react-router-dom";
 import styles from "../EventPage/EventPage.module.css";
-import eventpage from "../../assets/검색.svg";
+import img1 from "./연진_산토리니_여행패키지.jpg";
+import img2 from "./주연_태국_여행프로모션.jpg";
+import img3 from "./장다은_디자인시안_최종.png";
+import noEvent from "../EventPage/Group 67.png";
 
 function EventDetailPage() {
   const { id } = useParams<{ id: string }>();
 
-  const eventData = {
-    title: `이벤트 ${id} 제목`,
-    date: "2025.10.01 ~ 2025.11.15",
-    image: eventpage,
+  // 🔹 이벤트별 데이터 매핑
+  const eventMap: Record<string, { title: string; date: string; image: string }> = {
+    "1": {
+      title: "연진의 산토리니 여행 프로모션",
+      date: "2025.10.01 ~ 2025.11.15",
+      image: img1,
+    },
+    "2": {
+      title: "주연의 태국 여행 프로모션",
+      date: "2025.09.10 ~ 2025.11.30",
+      image: img2,
+    },
+    "3": {
+      title: "다은의 산토리니 여행 프로모션",
+      date: "2025.11.01 ~ 2025.12.30",
+      image: img3,
+    },
+  };
+
+  // 🔹 id로 이벤트 데이터 찾기 (없으면 기본값)
+  const eventData = eventMap[id ?? ""] || {
+    title: "이벤트 준비중입니다!",
+    date: "-",
+    image: noEvent,
   };
 
   return (

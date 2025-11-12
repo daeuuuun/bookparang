@@ -117,28 +117,68 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+// ✅ 닉네임 중복 확인
+export const checkNickname = async (req, res) => {
+  try {
+    const { nickname } = req.query;
+    if (!nickname) {
+      return res.status(400).json({ error: "닉네임을 입력해주세요." });
+    }
+
+    // 닉네임 중복 여부 확인
+    const existingUser = await User.findOne({ nickname });
+    if (existingUser) {
+      return res.status(409).json({ error: "이미 사용 중인 닉네임입니다." });
+    }
+
+    res.json({ message: "사용 가능한 닉네임입니다." });
+  } catch (error) {
+    console.error("❌ 닉네임 중복 확인 오류:", error);
+    res.status(500).json({ error: "서버 오류가 발생했습니다." });
+  }
+};
+
 // ✅ 회원정보 수정
 export const updateUser = async (req, res) => {
   try {
-    const { nickname, password, profileImage } = req.body;
+    const { nickname, password } = req.body;
     const updateData = {};
 
-    if (nickname) updateData.nickname = nickname;
-    if (profileImage) updateData.profileImage = profileImage;
+    // ✅ 닉네임 중복 검사 추가
+    if (nickname && nickname.trim() !== "") {
+      const existingUser = await User.findOne({
+        nickname,
+        userId: { $ne: req.user.userId }, // 자기 자신은 제외
+      });
 
-    if (password) {
+      if (existingUser) {
+        return res.status(409).json({ error: "이미 사용 중인 닉네임입니다." });
+      }
+
+      updateData.nickname = nickname;
+    }
+
+    // ✅ 프로필 이미지 (multer로 업로드된 경우)
+    if (req.file) {
+      const imagePath = `/uploads/${req.file.filename}`;
+      updateData.profileImage = imagePath;
+    }
+
+    // ✅ 비밀번호 변경 (비어 있으면 무시)
+    if (password && password.trim() !== "") {
       const passwordError = validatePassword(password);
       if (passwordError) return res.status(400).json({ error: passwordError });
       updateData.password = await bcrypt.hash(password, 10);
     }
 
+    // ✅ DB 업데이트
     const updatedUser = await User.findOneAndUpdate(
       { userId: req.user.userId },
       updateData,
       { new: true }
     ).select("-password");
 
-    res.json({ message: "회원정보가 수정되었습니다.", user: updatedUser });
+    res.json({ message: "회원정보 수정 완료!", user: updatedUser });
   } catch (error) {
     console.error("❌ 회원정보 수정 에러:", error.message);
     res.status(500).json({ error: "서버 오류" });

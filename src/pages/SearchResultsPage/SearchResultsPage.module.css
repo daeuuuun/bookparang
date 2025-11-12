@@ -1,0 +1,149 @@
+/* ✅ 전체 레이아웃 */
+.wrapper {
+  display: flex;
+  position: relative;
+  font-family: "Pretendard", sans-serif;
+  color: var(--light-gray-100);
+  width: 1200px;
+  margin: 0 auto;
+  justify-content: space-between; /* 왼쪽 필터 + 오른쪽 콘텐츠 균형 */
+  gap: 40px; /* 적절한 간격 */
+}
+
+/* ✅ 오른쪽 콘텐츠 영역 */
+.content {
+  flex: 1;
+  margin-top: 128px; /* 헤더 높이 보정 */
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ✅ 페이지 타이틀 */
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--light-gray-100);
+  margin-bottom: 14px;
+  text-align: left; /* 중앙 아님 */
+}
+
+/* ✅ 상단 필터 (정렬/뷰 전환) */
+.filter {
+  position: absolute;
+  top: -120px;
+  left: 0;
+  margin-left: -360px;
+}
+
+/* ✅ 결과 리스트 (리스트형) */
+.listView {
+  display: flex;
+  flex-direction: column;
+  margin-top: 54px;
+  margin-left: -360px;
+}
+
+/* ✅ 카드형 보기 */
+.cardView {
+  width: 840px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-content: start;
+  align-items: start;
+  margin-top: 54px;
+  margin-left: 200px;
+}
+
+/* ✅ 로딩 및 빈 결과 표시 */
+.loading,
+.empty {
+  text-align: center;
+  color: var(--light-gray-60);
+  margin-top: 80px;
+  font-size: 15px;
+}
+
+.hrLine {
+  border: none;
+  height: 0.0625rem;
+  background-color: var(--light-gray-10);
+}
+
+/* ========================================================= */
+/* ✅ 반응형 (1200px 이하부터만 적용 — PC는 그대로 유지) */
+/* ========================================================= */
+
+@media (max-width: 1200px) {
+  .wrapper {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 24px;
+    gap: 0;
+  }
+
+  .content {
+    width: 100%;
+    margin-top: 60px;
+  }
+
+  .title {
+    font-size: 26px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .filter {
+    position: static;
+    margin: 0 0 24px 0;
+  }
+
+  .listView {
+    margin: 0;
+    padding: 0 16px;
+  }
+
+  .cardView {
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    justify-content: center;
+    align-items: start;
+  }
+}
+
+/* 📱 768px 이하 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .cardView {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+  }
+
+  .listView {
+    padding: 0 8px;
+  }
+}
+
+/* 📱 480px 이하 */
+@media (max-width: 480px) {
+  .cardView {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 0 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}

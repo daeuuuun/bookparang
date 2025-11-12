@@ -15,3 +15,5 @@ export const categoryIdMap = {
   "건강/취미": 55889,
   "어린이": 1108,
 };
+
+export const categories = Object.keys(categoryIdMap);

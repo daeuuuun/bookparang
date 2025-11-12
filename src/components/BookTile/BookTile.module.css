@@ -3,11 +3,12 @@
   border: 1px solid var(--light-gray-10);
   margin-bottom: 0.0625rem;
   height: 100%;
-  transition: background-color 0.2s ease;
+  transition: transform 0.2s ease;
+  cursor: pointer;
 }
 
 .tile:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(-4px);
 }
 
 /* --- 순위 --- */
@@ -26,8 +27,8 @@
 
 /* --- 이미지 --- */
 .imageWrapper {
-  width: 12.5rem; /* 200px */
-  height: 13.8125rem; /* 221px */
+  width: 12.5rem;
+  height: 13.8125rem;
   margin: 0 auto;
   position: relative;
 }

@@ -7,7 +7,7 @@ import BookRow from "../../components/BookRow/BookRow";
 import styles from "./BestSellerPage.module.css";
 import type { Book } from "../../types/books";
 import type { Review } from "../../types/review";
-import useMediaQuery from "../../hooks/useMediaQuery"; // ✅ 추가
+import useMediaQuery from "../../hooks/useMediaQuery";
 
 export default function BestSellerPage() {
   const [view, setView] = useState<"list" | "card">("list");
@@ -19,7 +19,7 @@ export default function BestSellerPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("종합 베스트");
 
-  const isMobile = useMediaQuery("(max-width: 768px)"); // ✅ 모바일 감지
+  const isMobile = useMediaQuery("(max-width: 1200px)"); // ✅ 모바일 감지
 
   // ✅ 찜 토글
   const toggleFavorite = async (isbn: string | undefined) => {
@@ -194,8 +194,8 @@ export default function BestSellerPage() {
       {/* ✅ 모바일에서는 LayoutFilter의 view 전환 버튼 숨김 */}
       <LayoutFilter
         view={view}
-        onChange={(m) => setView(m)}
-        showSort={!isMobile}
+        onChange={setView}
+        showSort={false}
       />
 
       {books.length > 0 ? (

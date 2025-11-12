@@ -1,0 +1,300 @@
+/* 기본 스타일 */
+.reviewSummary {
+  margin-bottom: 30px;
+  padding: 40px;
+  background-color: #1B56EC20;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 70px;
+  align-items: center;
+}
+
+.reviewSummary h3 {
+  margin: 0;
+  color: var(--light-gray-70);
+}
+
+.ratingInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.averageScore {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--light-gray-70);
+}
+
+.reviewCount {
+  color: var(--light-gray-100);
+}
+
+.writeReview {
+  background-color: rgba(27, 86, 236, 0.1);
+  padding: 18px 18px;
+  margin-bottom: 24px;
+}
+
+.reviewTextarea {
+  width: 100%;
+  height: 175px;
+  border: 1px solid var(--light-gray-10);
+  padding: 12px;
+  font-size: var(--font-md);
+  font-family: inherit;
+  resize: none;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  display: block;
+}
+
+.reviewTextarea:focus {
+  outline: none;
+  border-color: var(--light-primary-color);
+}
+
+.reviewActions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ratingLabel {
+  color: #333;
+  font-size: 14px;
+  text-align: center;
+  flex: 1;
+}
+
+.submitBtn {
+  background-color: var(--light-primary-color);
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.submitBtn:hover {
+  background-color: #0d47d1;
+}
+
+.reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.reviewItem {
+  padding: 20px;
+  border-bottom: 1px solid var(--light-gray-10);
+  border-radius: 8px;
+  background-color: white;
+}
+
+.reviewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.author {
+  font-weight: 600;
+  color: #333;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.ratingAndMeta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transform: scale(0.7);
+}
+
+.rating span {
+  font-size: var(--font-lg);
+  color: var(--light-gray-70);
+}
+
+.reviewMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.date {
+  color: #999;
+  font-size: 12px;
+}
+
+.divider {
+  color: #ccc;
+  font-size: 12px;
+}
+
+.actionBtn {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 2px 4px;
+  transition: color 0.2s ease;
+}
+
+.actionBtn:hover {
+  color: var(--light-primary-color);
+}
+
+.reviewContent {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.reviewFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.helpfulBtn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.helpfulBtn:hover {
+  background-color: #f5f5f5;
+}
+
+.helpfulBtn.liked {
+  background-color: var(--light-primary-color);
+  color: white;
+  border-color: var(--light-primary-color);
+}
+
+.helpfulBtn.liked:hover {
+  background-color: #0d47d1;
+}
+
+.dateDesktop {
+  display: inline;
+}
+
+.dateMobile {
+  display: none;
+}
+
+/* ✅ 정렬 영역 */
+.sortBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 20px 0;
+  font-size: 14px;
+  color: var(--light-gray-100);
+}
+
+.sortBar label {
+  font-weight: 600;
+  color: var(--light-gray-70);
+}
+
+.sortBar select {
+  padding: 6px 10px;
+  border: 1px solid var(--light-gray-20);
+  border-radius: 6px;
+  background-color: #fff;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sortBar select:hover {
+  border-color: var(--light-primary-color);
+}
+
+.sortBar select:focus {
+  outline: none;
+  border-color: var(--light-primary-color);
+  box-shadow: 0 0 0 3px rgba(27, 86, 236, 0.2);
+}
+
+/* 모바일 스타일 - 1200px 이하 */
+@media (max-width: 1200px) {
+  .reviewSummary {
+    gap: 20px;
+    padding: 30px 16px;
+    text-align: center;
+  }
+
+  .reviewCount {
+    display: none;
+  }
+
+  .writeReview {
+    padding: 12px;
+    margin-bottom: 16px;
+  }
+
+  .reviewActions {
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .ratingLabel {
+    display: none;
+  }
+
+  .reviewHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .ratingAndMeta {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .author {
+    max-width: 100%;
+  }
+
+  .rating {
+    transform-origin: left center;
+  }
+
+  .dateDesktop {
+    display: none;
+  }
+
+  .dateMobile {
+    display: inline;
+  }
+}

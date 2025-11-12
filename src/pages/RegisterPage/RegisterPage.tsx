@@ -3,6 +3,7 @@ import axios from "axios";
 import styles from "./RegisterPage.module.css";
 import logo from "../../assets/img/로고b.png";
 import bookmark from "./책갈피.png";
+import { useNavigate } from "react-router-dom";
 
 // ✅ 비밀번호 유효성 검사 함수
 function validatePassword(password: string) {
@@ -159,6 +160,8 @@ function RegisterPage() {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <>
       <div className={styles.container}>
@@ -271,6 +274,7 @@ function RegisterPage() {
                 />{" "}
                 이용 약관에 모두 동의합니다
               </label>
+
               <label>
                 <input
                   type="checkbox"
@@ -279,8 +283,14 @@ function RegisterPage() {
                   onChange={handleCheck}
                 />{" "}
                 책파랑 이용약관 (필수)
-                <span className={styles.link}>보기 &gt;</span>
+                <span
+                  className={styles.link}
+                  onClick={() => navigate("/terms")}
+                >
+                  보기 &gt;
+                </span>
               </label>
+
               <label>
                 <input
                   type="checkbox"
@@ -289,8 +299,14 @@ function RegisterPage() {
                   onChange={handleCheck}
                 />{" "}
                 개인정보 수집 및 이용 동의 (필수)
-                <span className={styles.link}>보기 &gt;</span>
+                <span
+                  className={styles.link}
+                  onClick={() => navigate("/privacy")}
+                >
+                  보기 &gt;
+                </span>
               </label>
+
               <label>
                 <input
                   type="checkbox"
@@ -299,7 +315,12 @@ function RegisterPage() {
                   onChange={handleCheck}
                 />{" "}
                 책파랑 마케팅 수신 동의 (선택)
-                <span className={styles.link}>보기 &gt;</span>
+                <span
+                  className={styles.link}
+                  onClick={() => navigate("/marketing")}
+                >
+                  보기 &gt;
+                </span>
               </label>
             </div>
 

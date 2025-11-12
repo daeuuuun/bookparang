@@ -40,72 +40,81 @@ export const fetchBooks = async (queryType, category, sort) => {
     return [];
   }
 
-  let allBooks = [];
-  let start = 1;
+  const allBooks = [];
   const seen = new Set();
-  const MAX_RESULTS = 50; // 한 번에 가져올 최대 수
-  const TARGET_COUNT = 15; // 우리가 필요한 수
 
-  console.log(`🚀 [fetchBooks] ${queryType} 목록 요청 시작`);
+  let start = 1;
+  const MAX_RESULTS = 50;   // 알라딘 요청 단위
+  const TARGET_COUNT = 16;  // ✅ 우리가 필요한 권 수
+  const MAX_LOOPS = 5;      // ✅ 최대 반복 횟수 제한
 
-  // ✅ 여러 번 호출하면서 부족하면 추가 요청
-  while (allBooks.length < TARGET_COUNT) {
-    const params = {
-      ttbkey: ttbKey,
-      QueryType: queryType,
-      Start: start,
-      MaxResults: MAX_RESULTS,
-      Output: "JS",
-      Version: "20131101",
-      SearchTarget: "eBook",
-      Cover: "Big",
-    };
+  console.log(`🚀 [fetchBooks] ${queryType} 요청 시작 | category=${category || "전체"}`);
 
-    if (category) params.CategoryId = category;
+  for (let loop = 0; loop < MAX_LOOPS; loop++) {
+    console.log(`📡 요청 ${loop + 1}/${MAX_LOOPS} | Start=${start} | MaxResults=${MAX_RESULTS}`);
 
-    console.log(`📡 요청 Start=${start} | MaxResults=${MAX_RESULTS}`);
+    try {
+      const params = {
+        ttbkey: ttbKey,
+        QueryType: queryType,
+        Start: start,
+        MaxResults: MAX_RESULTS,
+        Output: "JS",
+        Version: "20131101",
+        SearchTarget: "eBook",
+        Cover: "Big",
+      };
 
-    const { data } = await axios.get(
-      "https://www.aladin.co.kr/ttb/api/ItemList.aspx",
-      { params }
-    );
+      if (category) params.CategoryId = category;
 
-    const items = data?.item ?? [];
-    console.log(`📥 응답=${items.length}개`);
+      const { data } = await axios.get(
+        "https://www.aladin.co.kr/ttb/api/ItemList.aspx",
+        { params }
+      );
 
-    if (!items.length) {
-      console.warn("⚠️ 더 이상 데이터가 없습니다. 루프 종료.");
+      const items = data?.item ?? [];
+      console.log(`📥 응답 ${items.length}개`);
+
+      if (items.length === 0) {
+        console.warn("⚠️ 더 이상 결과가 없습니다. 중단합니다.");
+        break;
+      }
+
+      // ✅ 필터링 (불필요한 카테고리 제외)
+      const filtered = mapBookData(items).filter(
+        (b) =>
+          b.isbn &&
+          !b.category?.includes("BL") &&
+          !b.category?.includes("GL") &&
+          !b.category?.includes("오디오북") &&
+          !b.category?.includes("연재")
+      );
+
+      // ✅ 중복 제거
+      const unique = filtered.filter((b) => {
+        if (seen.has(b.isbn)) return false;
+        seen.add(b.isbn);
+        return true;
+      });
+
+      allBooks.push(...unique);
+      console.log(`✅ 누적 ${allBooks.length}권`);
+
+      // ✅ 목표 수량 도달 시 종료
+      if (allBooks.length >= TARGET_COUNT) break;
+
+      // ✅ 다음 페이지로 이동
+      start += MAX_RESULTS;
+
+      // ✅ 과속 방지 (약 0.5초 딜레이)
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    } catch (err) {
+      console.error("❌ 알라딘 API 호출 실패:", err.message);
       break;
     }
-
-    // ✅ 필터링
-    const filtered = mapBookData(items).filter(
-      (b) =>
-        !b.category.includes("BL") &&
-        !b.category.includes("GL") &&
-        !b.category.includes("오디오북") &&
-        !b.category.includes("연재")
-    );
-
-    // ✅ 중복 제거
-    const unique = filtered.filter((b) => {
-      if (seen.has(b.isbn)) return false;
-      seen.add(b.isbn);
-      return true;
-    });
-
-    allBooks.push(...unique);
-    console.log(`✅ 누적 ${allBooks.length}권`);
-
-    // ✅ 필요한 수 다 모이면 종료
-    if (allBooks.length >= TARGET_COUNT) break;
-
-    // ✅ 다음 페이지로 이동
-    start += MAX_RESULTS;
-
-    // 💡 과속 방지 (0.8초 대기)
-    await new Promise((resolve) => setTimeout(resolve, 800));
   }
+
+  console.log(`🎯 요청 종료 | 누적 ${allBooks.length}권 (목표 ${TARGET_COUNT})`);
 
   // ✅ 정렬 처리
   if (sort === "latest") {
@@ -118,7 +127,7 @@ export const fetchBooks = async (queryType, category, sort) => {
     allBooks.sort((a, b) => b.rating - a.rating);
   }
 
-  // ✅ 결과 제한 (최대 30권까지만 반환)
+  // ✅ 16권까지만 반환
   const result = allBooks.slice(0, TARGET_COUNT);
   console.log(`🏁 최종 반환 ${result.length}권`);
   return result;

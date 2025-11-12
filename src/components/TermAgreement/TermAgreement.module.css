@@ -1,0 +1,275 @@
+.container {
+  max-width: 800px;
+  margin: 130px auto;
+  padding: 40px 20px;
+  font-family: var(--font-family);
+  line-height: 1.6;
+  color: var(--light-gray-100);
+}
+
+.title {
+  font-size: var(--font-xxl);
+  font-weight: 700;
+  color: var(--light-gray-100);
+  margin-bottom: 30px;
+  text-align: center;
+  border-bottom: 2px solid var(--light-primary-color);
+  padding-bottom: 15px;
+}
+
+.section {
+  margin-bottom: 35px;
+  background: var(--light-bg-color);
+  border-radius: 8px;
+  padding: 25px;
+  border-left: 4px solid var(--light-primary-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle {
+  font-size: var(--font-xl);
+  font-weight: 600;
+  color: var(--light-gray-100);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.sectionTitle::before {
+  content: "📋";
+  margin-right: 8px;
+}
+
+.content {
+  font-size: var(--font-md);
+  color: var(--light-gray-80);
+}
+
+.content ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.content li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.content li::marker {
+  color: var(--light-primary-color);
+}
+
+.content ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.content ol li {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+.content p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.content strong {
+  color: var(--light-gray-100);
+  font-weight: 700;
+}
+
+.subsection {
+  margin-top: 20px;
+  padding: 15px;
+  background: #0026ff07;
+  border-radius: 6px;
+  border: 1px solid #0026ff30;
+}
+
+.subsectionTitle {
+  font-size: var(--font-lg);
+  font-weight: 600;
+  color: var(--light-gray-100);
+  margin-bottom: 10px;
+  border-bottom: 1px solid #0026ff30;
+  padding-bottom: 5px;
+}
+
+.highlight {
+  background: var(--light-accent-color);
+  border: 1px solid var(--light-secondary-color);
+  border-radius: 6px;
+  padding: 20px;
+  margin: 15px 0;
+}
+
+.highlight p {
+  margin-bottom: 10px;
+  color: var(--light-primary-color);
+}
+
+.highlight strong {
+  color: var(--light-primary-color);
+  font-weight: 700;
+}
+
+.notice {
+  background: #fff3cd;
+  /* 기존 주황색 유지 */
+  border: 1px solid #ffeaa7;
+  border-radius: 8px;
+  padding: 25px;
+  margin-top: 30px;
+  border-left: 4px solid #f39c12;
+  text-align: center;
+}
+
+.notice p {
+  font-size: var(--font-md);
+  color: #856404;
+  /* 기존 주황색 유지 */
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.notice strong {
+  color: #dc851f;
+  /* 기존 주황색 유지 */
+  font-weight: 700;
+}
+
+.contactInfo {
+  background: var(--light-bg-color);
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 15px;
+  border: 1px solid #0026ff30;
+}
+
+.contactInfo h4 {
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--light-gray-100);
+  margin-bottom: 10px;
+}
+
+.contactInfo p {
+  margin: 5px 0;
+  font-size: var(--font-sm);
+  color: var(--light-gray-80);
+}
+
+.backBtnBox {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.backBtn {
+  background-color: var(--light-primary-color);
+  color: var(--light-bg-color);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.backBtn:hover {
+  background-color: var(--light-primary-color);
+}
+
+
+/* 반응형 */
+@media (max-width: 1200px) {
+  .container {
+    padding: 30px 15px;
+  }
+
+  .title {
+    font-size: var(--font-xl);
+  }
+
+  .section {
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .sectionTitle {
+    font-size: var(--font-lg);
+  }
+
+  .content {
+    font-size: var(--font-sm);
+  }
+
+  .subsection {
+    padding: 12px;
+  }
+
+  .notice {
+    padding: 20px 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 15px;
+  }
+
+  .title {
+    font-size: var(--font-lg);
+  }
+
+  .section {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .sectionTitle {
+    font-size: var(--font-md);
+  }
+
+  .content {
+    font-size: var(--font-sm);
+  }
+
+  .subsection {
+    padding: 10px;
+  }
+
+  .highlight,
+  .notice {
+    padding: 15px 12px;
+  }
+
+  .contactInfo {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px 10px;
+  }
+
+  .title {
+    font-size: var(--font-md);
+  }
+
+  .section {
+    padding: 12px;
+    margin-bottom: 15px;
+  }
+
+  .sectionTitle {
+    font-size: var(--font-sm);
+  }
+
+  .highlight,
+  .notice {
+    padding: 12px 10px;
+  }
+}

@@ -82,7 +82,7 @@
   font-family: "Pretendard", sans-serif;
 }
 
-.list>p {
+.list > p {
   font-size: 1rem;
 }
 
@@ -212,6 +212,10 @@
 [data-font="large"] .author::after,
 [data-font="large"] .publisher::after {
   content: none;
+}
+
+.row {
+  cursor: pointer;
 }
 
 /* ===== 반응형 ===== */

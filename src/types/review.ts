@@ -1,10 +1,14 @@
 export interface Review {
   _id: string;
-  user: {
-    id: string;         // ✅ userId (DB 고유 식별자)
-    nickname: string;   // ✅ 표시용 닉네임
-  };
-  rating: number;
+  isbn: string;
+  bookIsbn?: string;
+  rating: number; // 0~10점 단위
   comment: string;
+  user: {
+    id: string;
+    nickname: string;
+  };
+  helpful: number;
+  likedBy?: string[];
   createdAt: string;
 }

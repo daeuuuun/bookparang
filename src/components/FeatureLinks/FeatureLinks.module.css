@@ -1,0 +1,91 @@
+.linkWrap {
+    display: flex;
+    justify-content: center;
+    gap: 17px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card {
+    position: relative;
+    cursor: pointer;
+    flex: 1 1 250px;
+    max-width: 380px;
+}
+
+.card img {
+    width: 100%;
+    display: block;
+}
+
+.textWrap {
+    position: absolute;
+    bottom: 35%;
+    left: 5%;
+    right: 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.comment {
+    font-size: 16px;
+    color: #212121;
+    font-family: "Pretendard", sans-serif;
+}
+
+.title {
+    font-size: clamp(1.25rem, 2vw, 1.875rem);
+    font-weight: bold;
+    font-family: "Pretendard", sans-serif;
+}
+
+@media (max-width: 1200px) {
+  .linkWrapper {
+    width: 100%;
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    scroll-behavior: smooth; /* 부드럽게 이동 */
+    -webkit-overflow-scrolling: touch; /* iOS 부드러운 스크롤 */
+
+    /* 스크롤바 숨기기 */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    padding-left: 25px;
+  }
+
+  .linkWrapper::-webkit-scrollbar {
+    display: none; 
+  }
+
+  .linkWrap {
+    width: 1200px;
+    display: flex;
+    gap: 17px;
+  }
+
+  .card {
+    flex: 0 0 32%;
+    max-width: 32%;
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .textWrap {
+    bottom: 40%;
+  }
+
+  .comment {
+    font-size: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+}
+

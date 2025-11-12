@@ -1,0 +1,43 @@
+.sidebar {
+  width: 240px; /* 넓게 */
+  min-height: 80vh;
+  border-right: 1px solid var(--light-gray-20);
+  padding: 20px;
+  background-color: #fff;
+  box-sizing: border-box;
+  position: sticky;
+  top: 100px; /* 헤더 밑에 고정 */
+  align-self: flex-start;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+.section h4 {
+  font-size: 15px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  color: var(--light-gray-100);
+  border-bottom: 1px solid var(--light-gray-10);
+  padding-bottom: 6px;
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.section li {
+  font-size: 14px;
+  color: var(--light-gray-80);
+  padding: 6px 2px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.section li:hover {
+  color: var(--light-primary-color);
+  font-weight: 500;
+}

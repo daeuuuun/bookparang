@@ -1,55 +1,69 @@
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import SearchBar from "../SearchBar/SearchBar";
 import styles from "./Header.module.css";
 import logo from "../Header/logo.png";
-// import search from "../Header/search.svg";
-import profile from "../Header/profile.svg";
-import cart from "../Header/cart.svg";
-import SearchBar from "../SearchBar/SearchBar";
+import { ReactComponent as CartIcon } from "../Header/cart.svg";
+import { ReactComponent as ProfileIcon } from "../Header/profile.svg";
+import LoginPromptModal from "../LoginPromptModal/LoginPromptModal";
 
 export default function Header() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await axios.get("http://localhost:4000/api/users/me", {
+          withCredentials: true,
+        });
+        setIsLoggedIn(!!res.data);
+      } catch {
+        setIsLoggedIn(false);
+      }
+    };
+    checkLogin();
+  }, []);
+
+  const handleProtectedClick = (path: string) => {
+    if (!isLoggedIn) {
+      setShowModal(true);
+    } else {
+      navigate(path);
+    }
+  };
 
   return (
-    <header className={styles.header}>
-      <div className={styles.topBar}>
-        {/* 로고 */}
-        <img
-          src={logo}
-          alt="책파랑 로고"
-          className={styles.logo}
-          onClick={() => navigate("/")} // ✅ 홈으로 이동
-          style={{ cursor: "pointer" }}
-        />
-
-        {/* 검색창 */}
-        {/* <div className={styles.searchBar}>
-          <input
-            type="text"
-            placeholder="검색해보세요"
-            className={styles.searchInput}
-          />
-          <button className={styles.searchButton}>
-            <img src={search} alt="검색" />
-          </button>
-        </div> */}
-        <SearchBar />
-
-        {/* 아이콘 */}
-        <div className={styles.iconBar}>
+    <>
+      <header className={styles.header}>
+        <div className={styles.topBar}>
           <img
-            src={cart}
-            alt="장바구니"
-            className={styles.icon}
-            onClick={() => navigate("/cart")} // ✅ 장바구니로 이동
+            src={logo}
+            alt="책파랑 로고"
+            className={styles.logo}
+            onClick={() => navigate("/")}
           />
-          <img
-            src={profile}
-            alt="마이페이지"
-            className={styles.icon}
-            onClick={() => navigate("/my")} // ✅ 마이페이지로 이동
-          />
+
+          <div className={styles.searchWrapper}>
+            <SearchBar />
+          </div>
+
+          <div className={styles.iconBar}>
+            <CartIcon
+              className={styles.icon}
+              onClick={() => handleProtectedClick("/cart")}
+            />
+            <ProfileIcon
+              className={styles.icon}
+              onClick={() => handleProtectedClick("/my")}
+            />
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {showModal && <LoginPromptModal onClose={() => setShowModal(false)} />}
+    </>
   );
 }

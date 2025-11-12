@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 
 const KAKAO_KEY = import.meta.env.VITE_KAKAO_REST_API_KEY as string;
 
-/* -------------------- 🔹 타입 정의 -------------------- */
-
-// 알라딘 API 응답 타입 (서버에서 이미 가공해서 반환한다고 가정)
+/* -------------------- 타입 정의 -------------------- */
 export interface AladinBookDetail {
   listPrice?: number;
   salePrice?: number;
   discountRate?: number;
   reviewRank?: number;
   link?: string;
+  categoryId?: number;
+  categoryName?: string;
 }
 
-// 카카오 API에서 반환되는 책 데이터
 export interface KakaoBook {
   title: string;
   contents: string;
@@ -30,12 +29,10 @@ export interface KakaoBook {
   status: string;
 }
 
-// 카카오 API 전체 응답 구조
 interface KakaoBookResponse {
   documents: KakaoBook[];
 }
 
-// 클라이언트에서 사용하는 통합 Book 데이터
 export interface BookData {
   id: string;
   title: string;
@@ -47,13 +44,15 @@ export interface BookData {
   discountRate: number | string;
   reviewRank: number;
   link: string;
+  categoryId?: number;
+  categoryName?: string;
+  pubDate?: string;
 }
 
-/* -------------------- 🔹 디바운스 유틸 -------------------- */
-
+/* -------------------- 디바운스 -------------------- */
 function useDebounce<TArgs extends unknown[]>(
   func: (...args: TArgs) => void | Promise<void>,
-  delay = 300
+  delay = 500
 ): (...args: TArgs) => void {
   let timer: ReturnType<typeof setTimeout> | undefined;
   return (...args: TArgs) => {
@@ -64,15 +63,39 @@ function useDebounce<TArgs extends unknown[]>(
   };
 }
 
-/* -------------------- 🔹 메인 훅 -------------------- */
+/* -------------------- 병렬 호출 제한 유틸 -------------------- */
+async function chunkedPromiseAll<T, R>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<R>
+): Promise<Awaited<R>[]> {
+  const result: Awaited<R>[] = [];
+  for (let i = 0; i < items.length; i += limit) {
+    const slice = items.slice(i, i + limit);
+    const settled = await Promise.allSettled(slice.map(fn));
+    result.push(
+      ...settled
+        .filter(
+          (r): r is PromiseFulfilledResult<Awaited<R>> =>
+            r.status === "fulfilled"
+        )
+        .map((r) => r.value)
+    );
+  }
+  return result;
+}
 
+/* -------------------- 메인 훅 -------------------- */
 export default function useBookSearchWithAutoComplete() {
   const [books, setBooks] = useState<BookData[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  /* ------------------- 🔍 자동완성 ------------------- */
+  const isSearchingRef = useRef(false);
+  const lastQueryRef = useRef<string>("");
+
+  /* ------------------- 자동완성 ------------------- */
   const fetchSuggestions = async (query: string): Promise<void> => {
     if (!query.trim()) {
       setSuggestions([]);
@@ -98,9 +121,13 @@ export default function useBookSearchWithAutoComplete() {
 
   const debouncedFetch = useDebounce(fetchSuggestions, 300);
 
-  /* ------------------- 📚 실제 검색 ------------------- */
+  /* ------------------- 검색 ------------------- */
   const searchBooks = async (query: string): Promise<void> => {
-    if (!query.trim()) return;
+    if (!query.trim() || isSearchingRef.current || lastQueryRef.current === query)
+      return;
+
+    isSearchingRef.current = true;
+    lastQueryRef.current = query;
     setLoading(true);
     setError(null);
 
@@ -108,20 +135,31 @@ export default function useBookSearchWithAutoComplete() {
       const kakaoRes = await axios.get<KakaoBookResponse>(
         "https://dapi.kakao.com/v3/search/book",
         {
-          params: { query, size: 10 },
+          params: { query, size: 30 },
           headers: { Authorization: `KakaoAK ${KAKAO_KEY}` },
         }
       );
 
       const kakaoBooks = kakaoRes.data.documents;
 
-      const enrichedBooks: BookData[] = await Promise.all(
-        kakaoBooks.map(async (book): Promise<BookData> => {
+      const enrichedBooks = await chunkedPromiseAll<KakaoBook, BookData>(
+        kakaoBooks,
+        5, // 병렬 호출 제한
+        async (book) => {
           const isbn = book.isbn.split(" ")[1] || book.isbn.split(" ")[0];
+
+          // ✅ 출판일 가공 (카카오 데이터에서 바로)
+          const formattedDate = book.datetime
+            ? new Date(book.datetime).toLocaleDateString("ko-KR", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+            })
+            : "정보 없음";
 
           try {
             const aladinRes = await axios.get<AladinBookDetail>(
-              "http://localhost:4000/api/aladin",
+              "http://localhost:4000/api/books/aladin",
               { params: { isbn } }
             );
 
@@ -138,9 +176,11 @@ export default function useBookSearchWithAutoComplete() {
               discountRate: detail.discountRate ?? "정보 없음",
               reviewRank: detail.reviewRank ?? 0,
               link: detail.link ?? book.url,
+              categoryId: detail.categoryId ?? 0,
+              categoryName: detail.categoryName ?? "기타",
+              pubDate: formattedDate, // ✅ 여기서 추가됨!
             };
           } catch {
-            // 알라딘 API 실패 시 카카오 데이터 사용
             return {
               id: isbn,
               title: book.title,
@@ -152,17 +192,21 @@ export default function useBookSearchWithAutoComplete() {
               discountRate: "정보 없음",
               reviewRank: 0,
               link: book.url,
+              categoryId: 0,
+              categoryName: "기타",
+              pubDate: formattedDate, // ✅ 실패해도 포함
             };
           }
-        })
+        }
       );
 
       setBooks(enrichedBooks);
     } catch (err) {
-      console.error(err);
+      console.error("❌ 검색 실패:", err);
       setError("책 정보를 불러오지 못했습니다 😢");
     } finally {
       setLoading(false);
+      isSearchingRef.current = false;
     }
   };
 
@@ -172,6 +216,6 @@ export default function useBookSearchWithAutoComplete() {
     loading,
     error,
     fetchSuggestions: debouncedFetch,
-    searchBooks,
+    searchBooks: useDebounce(searchBooks, 500),
   };
 }

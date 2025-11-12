@@ -130,3 +130,89 @@ export const getBookDetail = async (req, res) => {
     res.status(500).json({ message: "Failed to fetch book detail" });
   }
 };
+
+// ✅ 상위 카테고리 매핑 테이블
+const CATEGORY_MAP = [
+  { id: 1, name: "소설", keywords: ["소설/시/희곡", "한국소설", "외국소설"] },
+  { id: 55889, name: "시/에세이", keywords: ["시", "에세이"] },
+  { id: 170, name: "경제경영", keywords: ["경제", "경영"] },
+  { id: 336, name: "자기계발", keywords: ["자기계발"] },
+  { id: 987, name: "인문학", keywords: ["인문"] },
+  { id: 798, name: "사회과학", keywords: ["사회과학"] },
+  { id: 74, name: "역사", keywords: ["역사"] },
+  { id: 517, name: "예술/대중문화", keywords: ["예술", "대중문화"] },
+  { id: 1230, name: "과학", keywords: ["과학"] },
+  { id: 351, name: "IT 모바일", keywords: ["IT", "모바일", "컴퓨터"] },
+  { id: 1322, name: "외국어", keywords: ["외국어", "영어", "일본어", "중국어"] },
+  { id: 1108, name: "어린이", keywords: ["어린이"] },
+  { id: 1137, name: "청소년", keywords: ["청소년"] },
+  { id: 1196, name: "여행", keywords: ["여행"] },
+  { id: 1237, name: "요리", keywords: ["요리"] },
+  { id: 5174, name: "건강", keywords: ["건강"] },
+  { id: 2030, name: "가정/생활", keywords: ["가정", "생활"] },
+  { id: 76000, name: "수험서", keywords: ["수험서"] },
+];
+
+// ✅ 알라딘 상세 조회 (카테고리 포함)
+export const getAladinBookDetail = async (req, res) => {
+  console.log("🚀 [getAladinBookDetail] 호출됨, ISBN:", req.query.isbn);
+  const { isbn } = req.query;
+
+  if (!isbn) {
+    return res.status(400).json({ message: "ISBN is required" });
+  }
+
+  try {
+    const { data } = await axios.get("https://www.aladin.co.kr/ttb/api/ItemLookUp.aspx", {
+      params: {
+        ttbkey: process.env.ALADIN_TTB_KEY,
+        ItemIdType: "ISBN",
+        ItemId: isbn,
+        Output: "JS",
+        Version: "20131101",
+        Cover: "Big",
+      },
+    });
+
+    if (!data?.item?.length) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    const book = data.item[0];
+    const rawCategory = book.categoryName || "";
+
+    // ✅ 매핑 로직 (수정된 부분)
+    const rawParts = rawCategory.split(">").map(p => p.trim());
+    console.log("📗 카테고리 분리:", rawParts);
+
+    let matchedCategory = CATEGORY_MAP.find((cat) =>
+      cat.keywords.some((kw) =>
+        rawParts.some((part) => part.includes(kw))
+      )
+    );
+
+    if (!matchedCategory) {
+      matchedCategory = { id: 0, name: "기타" };
+    }
+
+    const detail = {
+      listPrice: book.priceStandard || 0,
+      salePrice: book.priceSales || 0,
+      discountRate: book.priceStandard
+        ? Math.round(((book.priceStandard - book.priceSales) / book.priceStandard) * 100)
+        : 0,
+      reviewRank: book.customerReviewRank || 0,
+      link: book.link || "",
+      categoryId: matchedCategory.id,
+      categoryName: matchedCategory.name,
+    };
+
+    console.log("📗 원본 categoryName:", rawCategory);
+    console.log("📘 매칭된 카테고리:", matchedCategory.name);
+
+    res.json(detail);
+  } catch (err) {
+    console.error("❌ 알라딘 도서 상세 조회 실패:", err.message);
+    res.status(500).json({ message: "Failed to fetch Aladin book detail" });
+  }
+};

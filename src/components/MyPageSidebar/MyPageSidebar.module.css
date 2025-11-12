@@ -1,0 +1,208 @@
+.sidebar {
+  width: 200px;
+  height: auto;
+  border-right: 1px solid var(--light-gray-10);
+  border-left: 1px solid var(--light-gray-10);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 내정보 섹션 */
+.userInfo {
+  padding: 30px 10px 0 10px;
+  height: 233px;
+  border-bottom: 1px solid var(--light-bg-color);
+  border-radius: 8px 8px 0 0;
+  background-color: var(--light-primary-color);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.profileImage {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  flex-shrink: 0;
+}
+
+.profileImage>img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileDetails {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 18px;
+  color: var(--light-bg-color);
+}
+
+.profileDetails>span {
+  text-align: center;
+  font-size: var(--font-sm);
+}
+
+.nickname {
+  margin: 0;
+  font-size: var(--font-md);
+  font-weight: 600;
+  text-align: center;
+}
+
+.viewInfoButton {
+  background: #ffffff50;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 0;
+  font-size: var(--font-md);
+  color: var(--light-bg-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin: 25px 0;
+}
+
+.viewInfoButton:hover {
+  background-color: #ffffff81;
+  color: white;
+}
+
+/* 탭 메뉴 섹션 */
+.tabMenu {
+  flex: 1;
+  padding: 0;
+  background-color: var(--light-bg-color);
+}
+
+.tabList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabItem {
+  border-bottom: 1px solid var(--light-gray-40);
+}
+
+.tabButton {
+  width: 100%;
+  padding: 14px 10px;
+  background: #ffffff20;
+  font-weight: 600;
+  border: none;
+  text-align: left;
+  font-size: var(--font-md);
+  font-weight: 600;
+  color: var(--light-gray-100);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+}
+
+.tabButton:hover {
+  color: var(--light-primary-color);
+}
+
+.tabButton.active {
+  background-color: var(--light-primary-color);
+  color: var(--light-bg-color);
+  font-weight: 600;
+}
+
+
+/* 🌱 모바일 반응형: 1200px 이하 */
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    background-color: var(--light-bg-color);
+    border-right: none;
+  }
+
+  .userInfo {
+    padding: 20px 15px;
+    height: 316px;
+    flex-direction: column;
+    background-color: var(--light-primary-color);
+    border-radius: 8px 8px 0 0;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 15px;
+    border-bottom: none;
+  }
+
+  .profileImage {
+    width: 103px;
+    height: 103px;
+    margin-top: 40px;
+  }
+
+  .profileDetails {
+    flex-direction: column;
+    width: 185px;
+    align-items: center;
+    margin-top: 0;
+    gap: 15px;
+  }
+
+  .profileDetails>span {
+    margin-bottom: -12px;
+  }
+
+  .nickname {
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .viewInfoButton {
+    margin: 0;
+    padding: 6px 12px;
+    font-size: var(--font-sm);
+    white-space: nowrap;
+    width: 185px;
+    height: 44px;
+    font-size: var(--font-md);
+  }
+
+  .tabMenu {
+    flex: none;
+    background-color: var(--light-primary-color);
+    padding: 0 24px;
+  }
+
+  .tabList {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .tabItem {
+    flex: 1;
+    border-bottom: none;
+    border-right: none;
+  }
+
+  .tabItem:last-child {
+    border-right: none;
+  }
+
+  .tabButton {
+    padding: 12px 8px;
+    text-align: center;
+    font-size: var(--font-md);
+    color: var(--light-bg-color);
+  }
+
+  .tabButton.active {
+    background-color: var(--light-bg-color);
+    color: var(--light-gray-100);
+    font-weight: 600;
+    border-radius: 8px 8px 0 0;
+  }
+
+}

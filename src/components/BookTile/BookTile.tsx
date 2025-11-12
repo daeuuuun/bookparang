@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./BookTile.module.css";
 import { ReactComponent as StarIcon } from "../BookRow/star.svg";
 import { ReactComponent as HeartIcon } from "../BookRow/heart.svg";
@@ -23,10 +24,21 @@ export default function BookTile({
   onAddCart,
   onClick,
 }: Props) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    if (onClick) onClick();
+    else if (book.isbn) navigate(`/book/${book.isbn}`); // ✅ 상세 페이지로 이동
+  };
+
   return (
-    <div className={styles.tile} onClick={onClick}>
+    <div className={styles.tile} onClick={handleClick}>
       {/* ✅ 순위 공간은 유지하되, rank가 없으면 숫자 숨기기 */}
-      <h2 className={`${styles.number} ${rank === undefined ? styles.hiddenRank : ""}`}>
+      <h2
+        className={`${styles.number} ${
+          rank === undefined ? styles.hiddenRank : ""
+        }`}
+      >
         {rank}
       </h2>
 
@@ -46,9 +58,7 @@ export default function BookTile({
         {/* 가격 + 평점 */}
         <div className={styles.priceReview}>
           <div className={styles.price_review}>
-            <p className={styles.price}>
-              {book.salePrice?.toLocaleString()}원
-            </p>
+            <p className={styles.price}>{book.salePrice?.toLocaleString()}원</p>
             <div className={styles.sale}>
               {book.listPrice && (
                 <p className={styles.discount}>
@@ -73,14 +83,22 @@ export default function BookTile({
         <button
           className={styles.cart}
           onClick={(e) => {
-            e.stopPropagation();
+            e.stopPropagation(); // ✅ 클릭 이벤트 상위로 전파 방지
             onAddCart(book.isbn);
           }}
         >
           담기
         </button>
 
-        <button className={styles.buy}>구매</button>
+        <button
+          className={styles.buy}
+          onClick={(e) => {
+            e.stopPropagation();
+            navigate(`/book/${book.isbn}`); // ✅ 구매 클릭 시 상세 페이지로 이동
+          }}
+        >
+          구매
+        </button>
 
         <button
           className={styles.heart}

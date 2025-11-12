@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-top: 25px;
 }
 
 /* 상단 검색창 */
@@ -51,9 +50,9 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  margin-top: 23px;
+  margin-top: 50px;
   background: var(--light-bg-color);
-  position: relative;
+  position: absolute;
   transition: all 0.3s ease;
   animation: fadeIn 0.25s ease;
 }

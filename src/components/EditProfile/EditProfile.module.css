@@ -1,0 +1,344 @@
+.editProfileSection {
+  font-family: "Pretendard", sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  width: 100%;
+  padding: 20px 40px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #212121;
+}
+
+.titleLine {
+    border: none; 
+    height: 1px; 
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.profileContainer {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+/* 왼쪽 섹션 */
+.leftSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.profileBox {
+  text-align: center;
+}
+
+.label {
+    color: #212121;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 27px;
+}
+
+.profileImg {
+  width: 134px;
+  height: 134px;
+  transition: transform 0.4s ease-in-out;
+}
+
+.plusButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 301px;
+  height: 44px;
+  background-color: #1b56ec;
+  color: var(--light-bg-color);
+  border-radius: 5px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+.desc {
+  font-size: 0.75rem;
+  color: #212121;
+  line-height: 1.5;
+}
+
+.desc:before {
+  content: '•';
+  color: #000;
+  display: inline-block;
+  width: 10px;
+  margin-right: 8px;
+}
+
+/* 오른쪽 섹션 */
+.rightSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.inputGroup label {
+  font-weight: 600;
+  color: #212121;
+}
+
+.input {
+  height: 44px;
+  border: 1px solid #A6A6A6;
+  border-radius: 4px;
+  padding: 0 10px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.row .input {
+  flex: 1;
+  min-width: 0;
+}
+
+.checkButton {
+  flex-shrink: 0;
+  width: 154px;
+  height: 44px;
+  background-color: #1b56ec;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Pretendard", sans-serif;
+}
+
+.checkButton {
+  flex-shrink: 0;
+  width: 154px;
+  height: 44px;
+  background-color: #1b56ec;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: "Pretendard", sans-serif;
+}
+
+.notice {
+  font-size: 0.75rem;
+  color: #212121;
+}
+
+.notice::before {
+  color: #000;
+  content: '•';
+  display: inline-block;
+  width: 10px;
+  margin-right: 8px;
+}
+
+.infoList {
+  list-style: none;
+  font-size: 0.75rem;
+  color: #212121;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+
+.infoList li {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+    fill: #C4C4C4;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.buttonRow {
+  margin-top: 16px;
+}
+
+.saveButton {
+  width: 195px;
+  height: 44px;
+  background-color: #1b56ec;
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Pretendard", sans-serif;
+}
+
+.buttonLeave {
+    margin-top: 16px;
+    display: flex;
+    gap: 1rem;
+}
+
+.leaveButton {
+    border: none;
+    color: #646464;
+    font-size: 0.75rem;
+    cursor: pointer;
+    background: none;
+}
+
+.leaveButton:hover {
+    color: #1b56ec;
+}
+
+.toast {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  animation: fadeInOut 2.5s ease forwards;
+  z-index: 9999;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+.success {
+  background-color: #3b89ff;
+}
+.error {
+  background-color: #ff4d4d;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+.nicknameSuccess {
+  color: #3b89ff;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.nicknameError {
+  color: #ff4d4d;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.hiddenInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 1200px) {
+  .profileContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .title {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .titleLine {
+    display: none;
+  }
+
+  .label {
+    display: none;
+  }
+
+  .profileImg {
+    width: 102px;
+    height: 92px;
+  }
+
+  .rightSection {
+    width: 100%;
+  }
+
+  .plusButton {
+    width: 301px;
+    height: 44px;
+    margin-bottom: 14px;
+  }
+
+  .input {
+    width: 100%;
+    height: 44px;
+  }
+
+  .saveButton {
+    width: 118px;
+    height: 44px;
+  }
+
+  .infoList {
+    margin-top: 11px;
+  }
+
+  .buttonRow {
+    order: 2;
+  }
+
+  .leaveButton {
+    order: 1;
+  }
+}

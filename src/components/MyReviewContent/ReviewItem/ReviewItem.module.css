@@ -1,0 +1,102 @@
+.reviewItem {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.comment {
+  margin-top: 8px;
+  font-size: var(--font-md);
+  line-height: 1.6;
+  color: var(--light-gray-70);
+  white-space: pre-wrap;
+  word-break: keep-all;
+  min-height: 100px;
+  background-color: var(--light-gray-10);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.starRating {
+  scale: 0.9;
+  transform-origin: left center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.editBtn,
+.deleteBtn {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  width: 120px;
+  height: 40px;
+  font-weight: 600;
+}
+
+.editBtn {
+  background-color: var(--light-primary-color);
+  color: var(--light-bg-color);
+}
+
+.editBtn:hover {
+  background-color: var(--light-bg-color);
+  color: var(--light-primary-color);
+  border: 1px solid var(--light-primary-color);
+}
+
+.deleteBtn {
+  background-color: transparent;
+  color: var(--light-gray-70);
+  border: 1px solid var(--light-gray-70);
+}
+
+.deleteBtn:hover {
+  color: var(--light-gray-100);
+}
+
+/* ✏️ 편집 모드 (textarea 표시 시) */
+.editing {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  border: 1px solid var(--light-gray-40);
+  border-radius: 8px;
+  resize: none;
+  font-size: var(--font-md);
+  font-family: 'Pretendard';
+}
+
+.textarea:focus {
+  border-color: var(--primary);
+}
+
+/* 🌱 반응형 */
+@media (max-width: 1200px) {
+  .buttons {
+    justify-content: space-between;
+  }
+
+  .editBtn,
+  .deleteBtn {
+    width: 100%;
+    max-width: 140px;
+    height: 38px;
+    font-size: var(--font-sm);
+  }
+
+  .comment {
+    font-size: var(--font-sm);
+  }
+}

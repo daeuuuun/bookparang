@@ -20,7 +20,7 @@ function LoginPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // ✅ 쿠키 포함 요청
+      // ✅ 로그인 요청
       const res = await axios.post(
         "http://localhost:4000/api/users/login",
         form,
@@ -30,8 +30,19 @@ function LoginPage() {
       setMessage(res.data.message);
       alert("✅ 로그인 성공!");
 
-      // ✅ 로그인 성공 시 이전 페이지로 이동
-      navigate(-1);
+      // ✅ 로그인 후 내 정보(role 포함) 요청
+      const profileRes = await axios.get("http://localhost:4000/api/users/me", {
+        withCredentials: true,
+      });
+
+      const user = profileRes.data;
+
+      // ✅ 관리자면 /admin, 아니면 이전 페이지로
+      if (user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate(-1);
+      }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {
         setMessage(err.response?.data?.error || "로그인 실패");
@@ -81,7 +92,12 @@ function LoginPage() {
 
           <div className={styles.registerBox}>
             <p>아이디가 없으시다면?</p>
-            <button className={styles.registerBtn}>회원가입</button>
+            <button
+              className={styles.registerBtn}
+              onClick={() => navigate("/register")}
+            >
+              회원가입
+            </button>
           </div>
 
           <div className={styles.or}>
@@ -89,9 +105,15 @@ function LoginPage() {
           </div>
 
           <div className={styles.snsBox}>
-            <button className={styles.snsBtn}><img src={google} alt="구글 로그인" /></button>
-            <button className={styles.snsBtn}><img src={naver} alt="네이버 로그인" /></button>
-            <button className={styles.snsBtn}><img src={kakao} alt="카카오 로그인" /></button>
+            <button className={styles.snsBtn}>
+              <img src={google} alt="구글 로그인" />
+            </button>
+            <button className={styles.snsBtn}>
+              <img src={naver} alt="네이버 로그인" />
+            </button>
+            <button className={styles.snsBtn}>
+              <img src={kakao} alt="카카오 로그인" />
+            </button>
           </div>
         </div>
       </div>

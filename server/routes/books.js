@@ -5,6 +5,7 @@ import {
   getNewBooks,
   getBookCategories,
   getBookDetail,
+  getAladinBookDetail,
 } from "../controllers/bookController.js";
 
 const router = express.Router();
@@ -23,6 +24,9 @@ router.get("/categories", getBookCategories);
 
 // 🔹 상세조회
 router.get("/detail/:isbn", getBookDetail);
+
+// 🔹 알라딘 상세조회
+router.get("/aladin", getAladinBookDetail);
 
 // 🔹 검색
 router.get("/search", async (req, res) => {

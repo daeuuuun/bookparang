@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useBookSearchWithAutoComplete from "../../hooks/useBookSearchWithAutoComplete";
 import searchIcon from "../Header/search.svg";
 import styles from "./SearchBar.module.css";
@@ -7,13 +8,12 @@ export default function SearchBar() {
   const [query, setQuery] = useState("");
   const [, setHoveredTitle] = useState<string | null>(null);
   const [showResults, setShowResults] = useState(false);
+  const navigate = useNavigate();
 
   const { books, suggestions, loading, fetchSuggestions, searchBooks } =
     useBookSearchWithAutoComplete();
 
-  const handleFocus = () => {
-    setShowResults(true);
-  };
+  const handleFocus = () => setShowResults(true);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -29,8 +29,16 @@ export default function SearchBar() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    searchBooks(query);
-    setShowResults(true);
+    if (!query.trim()) return;
+    // 👉 검색 페이지로 이동
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  };
+
+  const handleSuggestionClick = (title: string) => {
+    const matched = books.find((b) => b.title === title);
+    if (matched) {
+      navigate(`/book/${matched.id}`);
+    }
   };
 
   const handleClose = () => {
@@ -40,11 +48,21 @@ export default function SearchBar() {
 
   const displayedBook = books[0];
 
+  useEffect(() => {
+    const handleFocusRequest = () => {
+      const input = document.getElementById("globalSearchInput");
+      if (input) input.focus();
+    };
+    window.addEventListener("focusSearchBar", handleFocusRequest);
+    return () => window.removeEventListener("focusSearchBar", handleFocusRequest);
+  }, []);
+
   return (
     <div className={styles.pageWrapper}>
       {/* 🔍 상단 검색창 */}
       <form onSubmit={handleSubmit} className={styles.searchBar}>
         <input
+          id="globalSearchInput"
           type="text"
           value={query}
           onFocus={handleFocus}
@@ -68,6 +86,7 @@ export default function SearchBar() {
                   <li
                     key={idx}
                     onMouseEnter={() => handleHover(title)}
+                    onClick={() => handleSuggestionClick(title)}
                     className={styles.item}
                   >
                     {title}
@@ -101,7 +120,7 @@ export default function SearchBar() {
             </div>
           </div>
 
-          {/* 닫기 버튼 — 항상 보이도록 */}
+          {/* 닫기 버튼 */}
           <div className={styles.closeDiv}>
             <button onClick={handleClose} className={styles.closeButton}>
               닫기 ✕
